@@ -1,0 +1,50 @@
+.container {
+    position: absolute;
+    inset: 0;
+    place-items: center;
+    background: #000000d5;
+    z-index: 5;
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: fit-content;
+    padding: 2rem 4rem;
+    background: var(--color-dark-grey);
+    border-radius: 8px;
+    box-shadow: 0px 5px 6px -2px #000000a5;
+}
+
+.newBtn {
+    padding: 0.5rem;
+    border: 1px solid var(--color-gold-primary);
+    border-radius: 4px;
+    background-color: transparent;
+    color: var(--color-gold-primary);
+    font-size: 1.25rem;
+    width: fit-content;
+    transition: 0.2s ease-in;
+}
+
+@media screen and (min-width: 1024px) {
+    .newBtn:is(:hover, :focus) {
+        background-color: var(--color-gold-primary);
+        color: black;
+    }
+}
+
+.pageHeader {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+@media screen and (min-width: 1024px) {
+    .pageHeader {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}

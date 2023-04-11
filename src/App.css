@@ -1,0 +1,62 @@
+#root {
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+@media screen and (min-width: 1024px) {
+  #root {
+    flex-direction: row;
+  }
+
+  header {
+    height: 100%;
+    background-color: var(--color-dark-grey);
+  }
+}
+
+header,
+main {
+  position: relative;
+}
+
+main {
+  height: 100%;
+  flex-grow: 1;
+  background-image: url('../public/Logo.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 80vw;
+}
+
+.wrapper {
+  height: 100%;
+  padding: 2rem;
+  overflow-y: scroll;
+}
+
+button {
+  cursor: pointer;
+}
+
+.preview-container {
+  height: fit-content;
+  position: absolute;
+  background: #000000d5;
+  inset: 0;
+  padding: 3rem;
+}
+
+.preview-content {
+  background-color: var(--color-dark-grey);
+  border-radius: 8px;
+  padding: 1rem 3rem;
+}
+
+.modal-btn-div {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem auto;
+  width: fit-content;
+}

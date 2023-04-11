@@ -1,0 +1,33 @@
+@import url(https://fonts.googleapis.com/css?family=Inter:100,200,300,regular,500,600,700,800,900);
+@import url(https://fonts.googleapis.com/css?family=Marck+Script:regular);
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-background: #101010;
+  --color-dark-grey: #353131;
+  --color-medium-grey: #646060;
+  --color-light-grey: #bdb9b9;
+  --color-gold-primary: #F7D79E;
+  --color-gold-secondary: #6F6251;
+}
+
+.visually-hidden {
+  display: none;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  color: white;
+  background-color: var(--color-background);
+  font-family: 'Inter', Arial, sans-serif;
+}
