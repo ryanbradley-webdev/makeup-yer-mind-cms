@@ -20,7 +20,7 @@
     width: 100%;
 }
 
-@media screen and (min-width: 769px) {
+@media screen and (min-width: 1024px) {
     .form textarea {
         height: 400px;
     }
@@ -126,16 +126,12 @@
 }
 
 .content {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    justify-content: space-evenly;
+    gap: 1rem;
     padding: 0.5rem;
     background-color: var(--color-medium-grey);
-    border-radius: 8px 0 0 8px;
+    border-radius: 4px;
 }
 
 .content svg {
@@ -145,6 +141,42 @@
     transition: 0.2s ease;
 }
 
-.content svg:hover {
-    fill: white;
+.content div {
+    color: var(--color-light-grey);
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: fit-content;
+}
+
+@media screen and (min-width: 1024px) {
+    .content {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 0.5rem;
+        background-color: var(--color-medium-grey);
+        border-radius: 8px 0 0 8px;
+    }
+    
+    .content svg {
+        fill: var(--color-light-grey);
+        width: 30px;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+    
+    .content svg:hover {
+        fill: white;
+    }
+    
+    .content div {
+        color: var(--color-light-grey);
+        font-size: 1.5rem;
+        margin-inline: auto;
+        cursor: pointer;
+    }
 }
