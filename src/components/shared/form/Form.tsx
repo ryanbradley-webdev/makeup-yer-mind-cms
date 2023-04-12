@@ -6,6 +6,7 @@ import PreviewIcon from '../../../assets/PreviewIcon'
 import TrashIcon from '../../../assets/TrashIcon'
 import SaveIcon from '../../../assets/SaveIcon'
 import UploadIcon from '../../../assets/UploadIcon'
+import Content from './Content'
 
 type FormProps = {
     openDeleteModal: () => void,
@@ -27,6 +28,14 @@ export default function Form({ handleSubmit, openDeleteModal, title, description
         }
     }
 
+    function handleContentChange(content: string) {
+        const data = {
+            type: ACTIONS.CHANGE_CONTENT,
+            payload: content
+        }
+        dispatch(data)
+    }
+
     return (
         <form action="" onSubmit={e => handleSubmit(e)} className={styles.form}>
             <label htmlFor="title">Title</label>
@@ -35,7 +44,7 @@ export default function Form({ handleSubmit, openDeleteModal, title, description
             <input type="text" name='description' id='description' value={description} onChange={(e) => dispatch({type: ACTIONS.CHANGE_DESCRIPTION, payload: e.target.value})} required />
             {children}
             <label htmlFor="content">Content</label>
-            <textarea name="content" id="content" cols={30} rows={10} value={content} onChange={(e) => dispatch({type: ACTIONS.CHANGE_CONTENT, payload: e.target.value})} required></textarea>
+            <Content value={content} handleChange={handleContentChange} />
             <div className={styles.button_div}>
                 <FormBtn onClick={preview}>
                     <PreviewIcon />

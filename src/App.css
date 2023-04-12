@@ -24,7 +24,7 @@ main {
 main {
   height: 100%;
   flex-grow: 1;
-  background-image: url('../public/Logo.svg');
+  background-image: url('/Logo.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: 80vw;

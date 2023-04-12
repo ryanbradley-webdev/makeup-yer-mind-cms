@@ -124,3 +124,27 @@
     rotate: -90deg;
     transition: stroke-dashoffset 0.5s ease-in-out;
 }
+
+.content {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0.5rem;
+    background-color: var(--color-medium-grey);
+    border-radius: 8px 0 0 8px;
+}
+
+.content svg {
+    fill: var(--color-light-grey);
+    width: 30px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.content svg:hover {
+    fill: white;
+}
