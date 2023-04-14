@@ -1,8 +1,9 @@
 #root {
-    height: 100vh;
-    height: 100dvh;
-    display: flex;
-    flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 @media screen and (min-width: 1024px) {
@@ -22,18 +23,16 @@ main {
 }
 
 main {
-  height: 100%;
   flex-grow: 1;
   background-image: url('/Logo.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: 80vw;
+  overflow-y: scroll;
 }
 
 .wrapper {
-  height: 100%;
   padding: 2rem;
-  overflow-y: scroll;
 }
 
 button {
