@@ -3,7 +3,6 @@ import Chip from '../shared/Chip'
 import TinyBtn from '../shared/TinyBtn'
 import { uploadImg } from '../../hooks/useStorage'
 import slugify from 'slugify'
-import LoadingSpinner from '../shared/form/LoadingSpinner'
 import { ACTIONS } from './BlogReducer'
 import ImgUploader from '../shared/form/ImgUploader'
 
