@@ -17,16 +17,26 @@ export default function BlogPreview({ article, togglePreview }: BlogPreviewProps
 
     return (
         <div className="preview-container">
+
             <div className="preview-content">
+
                 <button onClick={togglePreview}>&times;</button>
+
                 <h1>{title}</h1>
+
                 <img src={image} alt="" />
+
                 <h4>{description}</h4>
-                <p>
-                    Topics: {topics && topics.join(', ')}
-                </p>
-                <ReactMarkdown rehypePlugins={[rehypeRaw]} children={content || ''} />
+
+                <p>Topics: {topics && topics.join(', ')}</p>
+
+                <ReactMarkdown 
+                    rehypePlugins={[rehypeRaw]}
+                    children={content || ''}
+                />
+
             </div>
+            
         </div>
     )
 }

@@ -7,10 +7,15 @@ type ModalProps = {
 
 export default function Modal({ isVisible, children }: ModalProps) {
     return (
-        <div className={styles.container} style={{ display: isVisible ? 'grid' : 'none', marginBottom: '0' }}>
+        <div 
+            className={styles.container} 
+            style={{ display: isVisible ? 'grid' : 'none', marginBottom: '0' }} 
+        >
+            
             <div className={styles.modal}>
                 {children}
             </div>
+            
         </div>
     )
 }

@@ -11,9 +11,11 @@ type ListItemProps = {
 export default function ListItem({ children, path, closeMenu }: ListItemProps) {
     return (
         <li className={styles.li} onClick={closeMenu}>
+            
             <Link to={path}>
                 {children}
             </Link>
+            
         </li>
     )
 }

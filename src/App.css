@@ -28,11 +28,12 @@ main {
   background-position: center;
   background-repeat: no-repeat;
   background-size: 80vw;
-  overflow-y: scroll;
 }
 
 .wrapper {
+  height: 100vh;
   padding: 2rem;
+  overflow-y: scroll;
 }
 
 button {

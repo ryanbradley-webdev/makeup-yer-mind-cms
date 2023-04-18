@@ -11,10 +11,18 @@ export default function MessageCard({ message }: MessageCardProps) {
 
     const navigate = useNavigate()
     
+    // truncate the message content to less than 75 characters to remove UI clutter
     function truncateMessage(messageContent: string) {
-        if (messageContent.length < 70) return messageContent
-        let truncatedMessage = messageContent.slice(0, 70)
+        // return message content if already less than 75 characters
+        if (messageContent.length < 75) return messageContent
+
+        // select only the first 75 characters of the message
+        let truncatedMessage = messageContent.slice(0, 75)
+
+        // find the last space of the truncated string to prevent cutting off in the middle of a word
         const spaceIndex = truncatedMessage.lastIndexOf(' ')
+
+        // slice the truncated string to the last space and add ellipses
         return truncatedMessage.substring(0, spaceIndex) + '...'
     }
 

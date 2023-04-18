@@ -5,7 +5,8 @@ type Blog = {
     slug: string,
     topics: string[],
     likes: number,
-    createdAt: number | FieldValue,
+    createdAt?: FieldValue,
+    updatedAt?: FieldValue,
     views: number,
     image: string,
     content: string,
@@ -20,9 +21,9 @@ type Look = {
     slug: string,
     tags: string[],
     colors: string[],
-    id?: string,
     likes: number,
-    createdAt: number | FieldValue,
+    createdAt?: FieldValue,
+    updatedAt?: FieldValue,
     views: number,
     image1: string,
     image2: string,
@@ -49,12 +50,12 @@ type Message = {
 
 type DispatchArg = {
     type: string,
-    payload: string
+    payload: string | string[]
 }
 
 type Action = {
     type: string,
-    payload?: string
+    payload?: string | string []
 }
 
 type Firestore = {
@@ -62,9 +63,7 @@ type Firestore = {
     looks: Look[],
     messages: Message[],
     allColors: Color[],
-    saveBlog: (newLook: Blog, id: string | undefined) => Promise<void>,
-    deleteBlog: (id: string) => Promise<void>,
-    saveLook: (newLook: Look, id: string | undefined) => Promise<void>,
-    deleteLook: (id: string) => Promise<void>,
-    getMessages: () => void
+    getMessages: () => void,
+    saveArticle: (newArticle: Blog | Look, type: string) => Promis<void>,
+    deleteArticle: (id: string, type: string) => Promise<void>
 }

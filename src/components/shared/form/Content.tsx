@@ -3,12 +3,15 @@ import Modal from '../Modal'
 import styles from './form.module.css'
 import FormBtn from './FormBtn'
 import TinyBtn from '../TinyBtn'
+import { v4 as uuid } from 'uuid'
 
 type ContentProps = {
     value: string,
     handleChange: (arg: string) => void
 }
 
+// this component combines the textarea input for article content with a markdown utility bar
+// the utility bar provides modals to generate different types of markdown and semantic HTML syntax
 export default function Content({ value, handleChange }: ContentProps) {
     const [linkModalVisible, setLinkModalVisible] = useState<boolean>(false)
     const [linkURL, setLinkURL] = useState<string>('')
@@ -71,58 +74,105 @@ export default function Content({ value, handleChange }: ContentProps) {
         }
     }
 
+    // modular function to toggle a modal based on supplied state and associated setter function
     function toggleModal(state: boolean, setState: Dispatch<SetStateAction<boolean>>) {
         setState(!state)
     }
 
+    // modular function to update markdown state using supplied state and associated setter function
     function updateMarkdown(text: string, setState: Dispatch<SetStateAction<string>>) {
         setState(text)
     }
 
+    // generates the markdown for desired heading based on selected heading level
     function generateHeadingMarkdown() {
         let heading = ''
+
+        // prefix heading with octothorps according to heading level
         for (let i = 0; i < headingLevel; i++) {
             heading += '#'
         }
+
+        // return heading prefix with heading text from state
         return `\n\n${heading} ${headingText}`
     }
 
+    // updates heading level state with selected level converted to number
     function updateHeadingLevel(level: string) {
         setHeadingLevel(Number(level))
     }
 
+    // adds a list item to either ordered or unordered list
+    // function is modularized by taking in the appropriate input ref and setState action so it can be supplied to both
+    // the ordered and unordered list components
     function addListItem(ref: React.RefObject<HTMLInputElement>, setState: Dispatch<SetStateAction<string[]>>) {
+        // first get the value of the supplied input ref
         const newItem = ref.current?.value
+
+        // if no value exists, bail
         if (!newItem) return
+
+        // update state with the supplied setter and reset input
         setState(prev => [...prev, newItem])
         ref.current.value = ''
     }
 
+    // removes list item from supplied state
     function removeListItem(item: string, setState: Dispatch<SetStateAction<string[]>>) {
         setState(prev => prev.filter(prevItem => prevItem !== item))
     }
 
+    // generates markdown for the desired list type
+    // function is modularized to allow for both ordered and unordered lists
     function generateList(type: string) {
+        // first check supplied type to pull from the correct state
         const list = type === 'ul' ? ulListItems : olListItems
+
+        // prefix list with newline characters to ensure markdown can be correctly interpreted on the backend
         let listStr = '\n\n'
+
+        // append each list item
         list.forEach((item, idx) => {
+            // determines the appropriate list style for each item based on list type
             const listMark = type === 'ul' ? '- ' : `${idx + 1}. `
+
+            // add list item to markdown string prefixed by the style mark
             listStr += listMark + item
+
+            // if the item is not the last item in the list, newline characters in preparation for the next item
             if (idx < list.length - 1) listStr += '\n\n'
         })
+
+        // return the completed markdown string
         return listStr
     }
 
+    // copies the desired markdown to clipboard to paste in the textarea input
     function copyText(ref: React.RefObject<HTMLParagraphElement>) {
+        // first get the value of the supplied ref
         const text = ref.current?.textContent
+
+        // if no value exists, bail
         if (!text) return
+
+        // copy text to clipboard and alert user of success
         navigator.clipboard.writeText(text)
         alert('Markdown copied!')
     }
 
     return (
         <div style={{ position: 'relative' }}>
-            <textarea name="content" id="content" cols={30} rows={10} value={value} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleChange(e.target.value)} required></textarea>
+            
+            <textarea
+                name="content"
+                id="content"
+                cols={30}
+                rows={10}
+                value={value}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleChange(e.target.value)} 
+                required>
+            </textarea>
+
             <div className={styles.content}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" onClick={() => toggleModal(linkModalVisible, setLinkModalVisible)}>
                     <title>Link</title>
@@ -158,19 +208,32 @@ export default function Content({ value, handleChange }: ContentProps) {
                     <path d="M7,13V11H21V13H7M7,19V17H21V19H7M7,7V5H21V7H7M3,8V5H2V4H4V8H3M2,17V16H5V20H2V19H4V18.5H3V17.5H4V17H2M4.25,10A0.75,0.75 0 0,1 5,10.75C5,10.95 4.92,11.14 4.79,11.27L3.12,13H5V14H2V13.08L4,11H2V10H4.25Z" />
                 </svg>
             </div>
+
             <Modal isVisible={linkModalVisible}>
+
                 <div>
                     <label>Enter URL</label>
-                    <input form='no-form' type="text" onChange={(e) => updateMarkdown(e.target.value, setLinkURL)} />
+                    <input
+                        form='no-form'
+                        type="text"
+                        onChange={(e) => updateMarkdown(e.target.value, setLinkURL)}
+                    />
                 </div>
+
                 <div>
                     <label>Enter display text</label>
-                    <input form='no-form' type="text" onChange={(e) => updateMarkdown(e.target.value, setLinkDisplay)} />
+                    <input
+                        form='no-form'
+                        type="text"
+                        onChange={(e) => updateMarkdown(e.target.value, setLinkDisplay)}
+                    />
                 </div>
+
                 <div>
                     <label>Markdown:</label>
                     <p style={localStyles.markdown} ref={linkRef}>{`[${linkDisplay}](${linkURL})`}</p>
                 </div>
+
                 <div style={localStyles.btnDiv}>
                     <FormBtn onClick={() => toggleModal(linkModalVisible, setLinkModalVisible)}>
                         Close
@@ -179,20 +242,34 @@ export default function Content({ value, handleChange }: ContentProps) {
                         Copy text
                     </FormBtn>
                 </div>
+
             </Modal>
+
             <Modal isVisible={imageModalVisible}>
+
                 <div>
                     <label>Enter URL</label>
-                    <input form='no-form' type="text" onChange={(e) => updateMarkdown(e.target.value, setImageURL)} />
+                    <input
+                        form='no-form'
+                        type="text"
+                        onChange={(e) => updateMarkdown(e.target.value, setImageURL)}
+                    />
                 </div>
+
                 <div>
                     <label>Enter alt text</label>
-                    <input form='no-form' type="text" onChange={(e) => updateMarkdown(e.target.value, setImageDisplay)} />
+                    <input
+                        form='no-form'
+                        type="text"
+                        onChange={(e) => updateMarkdown(e.target.value, setImageDisplay)}
+                    />
                 </div>
+
                 <div>
                     <label>Markdown:</label>
                     <p style={localStyles.markdown} ref={imageRef}>{`\n\n![${imageDisplay}](${imageURL})`}</p>
                 </div>
+
                 <div style={localStyles.btnDiv}>
                     <FormBtn onClick={() => toggleModal(imageModalVisible, setImageModalVisible)}>
                         Close
@@ -201,16 +278,30 @@ export default function Content({ value, handleChange }: ContentProps) {
                         Copy text
                     </FormBtn>
                 </div>
+
             </Modal>
+
             <Modal isVisible={videoModalVisible}>
+
                 <div>
                     <label>Enter URL</label>
-                    <input form='no-form' type="text" onChange={(e) => updateMarkdown(e.target.value, setVideoURL)} />
+                    <input
+                        form='no-form'
+                        type="text"
+                        onChange={(e) => updateMarkdown(e.target.value, setVideoURL)}
+                    />
                 </div>
+
                 <div>
                     <label>Markdown:</label>
-                    <p style={localStyles.markdown} ref={videoRef}>{`\n\n<video src='${videoURL}' controls></video>`}</p>
+                    <p 
+                        style={localStyles.markdown} 
+                        ref={videoRef}
+                    >
+                        {`\n\n<video src='${videoURL}' controls></video>`}
+                    </p>
                 </div>
+
                 <div style={localStyles.btnDiv}>
                     <FormBtn onClick={() => toggleModal(videoModalVisible, setVideoModalVisible)}>
                         Close
@@ -219,20 +310,39 @@ export default function Content({ value, handleChange }: ContentProps) {
                         Copy text
                     </FormBtn>
                 </div>
+
             </Modal>
+
             <Modal isVisible={btnModalVisible}>
+
                 <div>
                     <label>Enter URL</label>
-                    <input form='no-form' type="text" onChange={(e) => updateMarkdown(e.target.value, setbtnURL)} />
+                    <input
+                        form='no-form'
+                        type="text"
+                        onChange={(e) => updateMarkdown(e.target.value, setbtnURL)}
+                    />
                 </div>
+
                 <div>
                     <label>Enter alt text</label>
-                    <input form='no-form' type="text" onChange={(e) => updateMarkdown(e.target.value, setBtnDisplay)} />
+                    <input
+                        form='no-form'
+                        type="text"
+                        onChange={(e) => updateMarkdown(e.target.value, setBtnDisplay)}
+                    />
                 </div>
+
                 <div>
                     <label>Markdown:</label>
-                    <p style={localStyles.markdown} ref={btnRef}>{`\n\n<button type='button'><a href='${btnUrl}' target='_blank'>${btnDisplay}</a></button>`}</p>
+                    <p
+                        style={localStyles.markdown}
+                        ref={btnRef}
+                    >
+                        {`\n\n<button type='button'><a href='${btnUrl}' target='_blank'>${btnDisplay}</a></button>`}
+                    </p>
                 </div>
+
                 <div style={localStyles.btnDiv}>
                     <FormBtn onClick={() => toggleModal(btnModalVisible, setBtnModalVisible)}>
                         Close
@@ -241,8 +351,11 @@ export default function Content({ value, handleChange }: ContentProps) {
                         Copy text
                     </FormBtn>
                 </div>
+
             </Modal>
+
             <Modal isVisible={headingModalVisible}>
+
                 <div>
                     <label>Heading Level</label>
                     <select form='no-form' onChange={(e) => updateHeadingLevel(e.target.value)}>
@@ -253,14 +366,26 @@ export default function Content({ value, handleChange }: ContentProps) {
                         <option value="6">6</option>
                     </select>
                 </div>
+
                 <div>
                     <label>Enter Heading Text</label>
-                    <input form='no-form' type="text" onChange={(e) => updateMarkdown(e.target.value, setHeadingText)} />
+                    <input
+                        form='no-form'
+                        type="text"
+                        onChange={(e) => updateMarkdown(e.target.value, setHeadingText)}
+                    />
                 </div>
+
                 <div>
                     <label>Markdown:</label>
-                    <p style={localStyles.markdown} ref={headingRef}>{generateHeadingMarkdown()}</p>
+                    <p 
+                        style={localStyles.markdown} 
+                        ref={headingRef}
+                    >
+                        {generateHeadingMarkdown()}
+                    </p>
                 </div>
+
                 <div style={localStyles.btnDiv}>
                     <FormBtn onClick={() => toggleModal(headingModalVisible, setHeadingModalVisible)}>
                         Close
@@ -269,16 +394,30 @@ export default function Content({ value, handleChange }: ContentProps) {
                         Copy text
                     </FormBtn>
                 </div>
+
             </Modal>
+
             <Modal isVisible={boldModalVisible}>
+
                 <div>
                     <label>Enter Bold Text</label>
-                    <input form='no-form' type="text" onChange={(e) => updateMarkdown(e.target.value, setBoldText)} />
+                    <input
+                        form='no-form'
+                        type="text"
+                        onChange={(e) => updateMarkdown(e.target.value, setBoldText)}
+                    />
                 </div>
+
                 <div>
                     <label>Markdown:</label>
-                    <p style={localStyles.markdown} ref={boldRef}>{`**${boldText}**`}</p>
+                    <p
+                        style={localStyles.markdown}
+                        ref={boldRef}
+                    >
+                        {`**${boldText}**`}
+                    </p>
                 </div>
+
                 <div style={localStyles.btnDiv}>
                     <FormBtn onClick={() => toggleModal(boldModalVisible, setBoldModalVisible)}>
                         Close
@@ -287,16 +426,30 @@ export default function Content({ value, handleChange }: ContentProps) {
                         Copy text
                     </FormBtn>
                 </div>
+
             </Modal>
+
             <Modal isVisible={italicModalVisible}>
+
                 <div>
                     <label>Enter Italic Text</label>
-                    <input form='no-form' type="text" onChange={(e) => updateMarkdown(e.target.value, setItalicText)} />
+                    <input
+                        form='no-form'
+                        type="text"
+                        onChange={(e) => updateMarkdown(e.target.value, setItalicText)}
+                    />
                 </div>
+
                 <div>
                     <label>Markdown:</label>
-                    <p style={localStyles.markdown} ref={italicRef}>{`*${italicText}*`}</p>
+                    <p
+                        style={localStyles.markdown}
+                        ref={italicRef}
+                    >
+                        {`*${italicText}*`}
+                    </p>
                 </div>
+
                 <div style={localStyles.btnDiv}>
                     <FormBtn onClick={() => toggleModal(italicModalVisible, setItalicModalVisible)}>
                         Close
@@ -305,8 +458,11 @@ export default function Content({ value, handleChange }: ContentProps) {
                         Copy text
                     </FormBtn>
                 </div>
+
             </Modal>
+
             <Modal isVisible={ulModalVisible}>
+
                 <div>
                     <label>Enter List Item</label>
                     <input form='no-form' type="text" ref={ulItemRef} />
@@ -314,10 +470,11 @@ export default function Content({ value, handleChange }: ContentProps) {
                         &#43;
                     </TinyBtn>
                 </div>
+
                 <div>
                     <label>List Items</label>
                     {ulListItems.map(item => (
-                        <p key={Math.floor(Math.random() * 100000)}>
+                        <p key={uuid()}>
                             <TinyBtn onClick={() => removeListItem(item, setUlListItems)}>
                                 &times;
                             </TinyBtn>
@@ -325,10 +482,12 @@ export default function Content({ value, handleChange }: ContentProps) {
                         </p>
                     ))}
                 </div>
+
                 <div>
                     <label>Markdown:</label>
                     <p style={localStyles.markdown} ref={ulRef}>{generateList('ul')}</p>
                 </div>
+
                 <div style={localStyles.btnDiv}>
                     <FormBtn onClick={() => toggleModal(ulModalVisible, setUlModalVisible)}>
                         Close
@@ -337,8 +496,11 @@ export default function Content({ value, handleChange }: ContentProps) {
                         Copy text
                     </FormBtn>
                 </div>
+
             </Modal>
+
             <Modal isVisible={olModalVisible}>
+
                 <div>
                     <label>Enter List Item</label>
                     <input form='no-form' type="text" ref={olItemRef} />
@@ -346,10 +508,11 @@ export default function Content({ value, handleChange }: ContentProps) {
                         &#43;
                     </TinyBtn>
                 </div>
+
                 <div>
                     <label>List Items</label>
                     {ulListItems.map(item => (
-                        <p key={Math.floor(Math.random() * 100000)}>
+                        <p key={uuid()}>
                             <TinyBtn onClick={() => removeListItem(item, setOlListItems)}>
                                 &times;
                             </TinyBtn>
@@ -357,10 +520,12 @@ export default function Content({ value, handleChange }: ContentProps) {
                         </p>
                     ))}
                 </div>
+
                 <div>
                     <label>Markdown:</label>
                     <p style={localStyles.markdown} ref={olRef}>{generateList('ol')}</p>
                 </div>
+
                 <div style={localStyles.btnDiv}>
                     <FormBtn onClick={() => toggleModal(olModalVisible, setOlModalVisible)}>
                         Close
@@ -369,7 +534,9 @@ export default function Content({ value, handleChange }: ContentProps) {
                         Copy text
                     </FormBtn>
                 </div>
+
             </Modal>
+
         </div>
     )
 }

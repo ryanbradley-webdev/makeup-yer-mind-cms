@@ -13,14 +13,21 @@ export default function Looks() {
 
     return (
         <main>
+            
             <div className="wrapper">
+                
                 <PageHeader>
+                    
                     <h1>Looks</h1>
+                    
                     <NewBtn handleClick={() => navigate('/looks/new')}>
                         &#43; New Article
                     </NewBtn>
+                    
                 </PageHeader>
+                
                 <section className={styles.card_grid}>
+                    
                     {looks && looks.map((look: Look) => (
                         <Card
                             content={look} 
@@ -31,8 +38,11 @@ export default function Looks() {
                             type='look'
                         />
                     ))}
+                    
                 </section>
+                
             </div>
+            
         </main>
     )
 }

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer, useRef, useState } from 'react'
+import React, { useContext, useReducer, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import DeleteModal from '../shared/DeleteModal'
 import { titleCase } from '../../util/functions'
@@ -21,7 +21,7 @@ type Action = {
 }
 
 export default function EditBlog({ type }: EditBlogProps) {
-    const { blogs, saveBlog } = useContext(DataContext) as Firestore
+    const { blogs, saveArticle } = useContext(DataContext) as Firestore
 
     const { id } = useParams()
     const article = blogs.find((blog: Blog) => blog.id === id) || initialBlog
@@ -29,13 +29,17 @@ export default function EditBlog({ type }: EditBlogProps) {
     const [deleteModalVisible, setDeleteModalVisible] = useState<boolean>(false)
     const [previewVisible, setPreviewVisible] = useState<boolean>(false)
     const [successModalVisible, setSuccessModalVisible] = useState<boolean>(false)
+    // TODO add success modal on submitting draft/publishing
 
     const [blog, dispatch] = useReducer(reducer, article)
 
     const navigate = useNavigate()
 
     function successMessage() {
+        // open success modal
         setSuccessModalVisible(true)
+
+        // navigate to blogs page after 1 second
         setTimeout(() => {
             navigate('/blogs')
         }, 1000)
@@ -43,17 +47,41 @@ export default function EditBlog({ type }: EditBlogProps) {
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
-        const newBlog = { ...blog, createdAt: serverTimestamp(), draft: false, slug: slugify(blog.title) }
-        saveBlog(newBlog, newBlog?.id)
+
+        // create copy of blog state and set draft status to false
+        const newBlog = { ...blog, draft: false }
+
+        if (newBlog.createdAt) {
+            // if current blog is an edit of a live blog, set the updatedAt field to a server timestamp
+            newBlog.updatedAt = serverTimestamp()
+        } else {
+            // else generate a createdAt server timestamp
+            newBlog.createdAt = serverTimestamp()
+
+            // generate URL slug from article title
+            newBlog.slug = slugify(newBlog.title)
+        }
+
+        // upload new blog to database
+        saveArticle(newBlog, 'blogs')
+            // if success, open success modal and return to blogs page
             .then(() => successMessage())
+            // otherwise log error
             .catch((err: any) => console.log(err))
+        // TODO add error UI to inform user of failed upload
     }
 
     function saveDraft() {
+        // create copy of blog state and set draft status to true
         const draft = { ...blog, draft: true }
-        saveBlog(draft as Blog, draft?.id)
+
+        // upload draft to database
+        saveArticle(draft, 'blogs')
+            // if success, open success modal and return to blogs page
             .then(() => successMessage())
+            // otherwise log error
             .catch((err: any) => console.log(err))
+        // TODO add error UI to inform user of failed upload
     }
 
     function toggleDeleteModal() {
@@ -66,10 +94,13 @@ export default function EditBlog({ type }: EditBlogProps) {
 
     return (
         <main>
+            
             <div className="wrapper">
+                
                 <PageHeader>
                     <h1>{titleCase(type)} Blog {(article?.draft || !article) && '(Draft)'}</h1>
                 </PageHeader>
+                
                 <Form 
                     handleSubmit={handleSubmit} 
                     openDeleteModal={toggleDeleteModal}
@@ -80,19 +111,25 @@ export default function EditBlog({ type }: EditBlogProps) {
                     preview={togglePreview}
                     saveDraft={saveDraft}
                 >
+                    
                     <BlogFormInfo
                         topics={blog.topics}
                         image={blog.image}
                         dispatch={dispatch}
                     />
+                    
                 </Form>
+                
             </div>
+            
             {previewVisible && <BlogPreview article={blog} togglePreview={togglePreview} />}
+            
             <DeleteModal 
                 deleteDraft={() => navigate('/blogs')}
                 isVisible={deleteModalVisible}
                 closeModal={toggleDeleteModal}
             />
+            
         </main>
     )
 }

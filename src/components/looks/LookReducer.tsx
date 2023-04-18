@@ -16,28 +16,42 @@ export const initialLook: Look = {
 }
 
 export function reducer (state: Look, action: Action): Look {
+    let newLook
+
     switch (action.type) {
         case ACTIONS.CHANGE_TITLE:
-            return { ...state, title: action.payload } as Look
+            newLook = { ...state, title: action.payload }
+            break
         case ACTIONS.CHANGE_DESCRIPTION:
-            return { ...state, description: action.payload } as Look
+            newLook = { ...state, description: action.payload }
+            break
         case ACTIONS.CHANGE_IMAGE_1:
-            return { ...state, image1: action.payload } as Look
+            newLook = { ...state, image1: action.payload }
+            break
         case ACTIONS.CHANGE_IMAGE_2:
-            return { ...state, image2: action.payload } as Look
+            newLook = { ...state, image2: action.payload }
+            break
         case ACTIONS.CHANGE_CONTENT:
-            return { ...state, content: action.payload } as Look
+            newLook = { ...state, content: action.payload }
+            break
         case ACTIONS.ADD_TAG:
-            return { ...state, tags: [...state.tags, action.payload] } as Look
+            newLook = { ...state, tags: [...state.tags, action.payload] }
+            break
         case ACTIONS.DELETE_TAG:
-            return { ...state, tags: state.tags.filter(tag => tag !== action.payload) } as Look
-        case ACTIONS.ADD_COLOR:
-            return { ...state, colors: [...state.colors, action.payload] } as Look
+            newLook = { ...state, tags: state.tags.filter(tag => tag !== action.payload) }
+            break
+        case ACTIONS.ADD_COLORS:
+            newLook = { ...state, colors: [...state.colors, ...(action.payload as string[])] }
+            break
         case ACTIONS.DELETE_COLOR:
-            return { ...state, colors: state.colors.filter((color: string) => color !== action.payload)} as Look
+            newLook = { ...state, colors: state.colors.filter((color: string) => color !== action.payload)}
+            break
         default:
-            return state as Look
+            newLook = state
+            break
     }
+
+    return newLook as Look
 }
 
 export const ACTIONS = {
@@ -48,6 +62,6 @@ export const ACTIONS = {
     CHANGE_CONTENT: 'changeContent',
     ADD_TAG: 'addTag',
     DELETE_TAG: 'deleteTag',
-    ADD_COLOR: 'addColor',
+    ADD_COLORS: 'addColors',
     DELETE_COLOR: 'deleteColor'
 }

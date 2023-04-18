@@ -33,14 +33,32 @@ export default function Chip({ value, removeChip }: ChipProps) {
         }
     }
 
+    // determine the display name of the chip
+    // if the supplied content is from the 'tag' or 'topic' form sections, the input will be a string
+    // if the supplied content is of type Color, the name property of the Color object will be used
     const name = typeof value === 'string' ? value : value.name
+
+    // id is determined similarly to name, except the id property of the Color object is used
     const id = typeof value === 'string' ? value : value.id
 
     return (
         <div style={styles.container}>
-            {typeof value !== 'string' && <img src={value.image} style={styles.img} />}
+
+            {
+                // if a Color object is supplied, an image is rendered using the img property URL
+                typeof value !== 'string' && <img src={value.image} style={styles.img} />
+            }
+
             {name}
-            <button type='button' style={styles.button} onClick={() => removeChip(id)}>&times;</button>
+
+            <button 
+                type='button' 
+                style={styles.button} 
+                onClick={() => removeChip(id)}
+            >
+                &times;
+            </button>
+
         </div>
     )
 }

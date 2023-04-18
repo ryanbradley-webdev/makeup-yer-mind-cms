@@ -7,10 +7,17 @@ export default function Messages() {
 
     return (
         <main>
-            <h1 style={{ marginBottom: '2rem' }}>Messages</h1>
-            {messages && messages.map((message: Message) => (
-                <MessageCard message={message} key={message.id} />
-            ))}
+            
+            <div className="wrapper">
+                
+                <h1 style={{ marginBottom: '2rem' }}>Messages</h1>
+                
+                {messages && messages.map((message: Message) => (
+                    <MessageCard message={message} key={message.id} />
+                ))}
+                
+            </div>
+            
         </main>
     )
 }

@@ -45,9 +45,10 @@ async function getArticleData(contentType: string) {
     const docs = await getDocs(q)
     docs.forEach(doc => {
         const article = doc.data()
-        article.id = doc.id
         if (article.draft) drafts.push(article)
         else content.push(article)
     })
     return drafts.concat(content)
 }
+
+// TODO consolidate functions into DataContext

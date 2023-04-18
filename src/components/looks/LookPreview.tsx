@@ -19,17 +19,25 @@ export default function LookPreview({ article, togglePreview, colors }: LookPrev
 
     return (
         <div className="preview-container">
+
             <div className="preview-content">
+
                 <button onClick={togglePreview}>&times;</button>
+
                 <h1>{title}</h1>
+
                 <img src={image1} alt="" />
+
                 <img src={image2} alt="" />
+
                 <h4>{description}</h4>
-                <p>
-                    Tags: {tags && tags.join(', ')}
-                </p>
+
+                <p>Tags: {tags && tags.join(', ')}</p>
+
                 <ReactMarkdown rehypePlugins={[rehypeRaw]} children={content || ''} />
+
             </div>
+
         </div>
     )
 }

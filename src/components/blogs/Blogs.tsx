@@ -13,13 +13,19 @@ export default function Blogs() {
 
     return (
         <main>
+            
             <div className="wrapper">
+                
                 <PageHeader>
+                    
                     <h1>Blogs</h1>
+                    
                     <NewBtn handleClick={() => navigate('/blogs/new')}>
                         &#43; New Article
                     </NewBtn>
+                    
                 </PageHeader>
+                
                 <section className={styles.card_grid}>
                     {blogs && blogs.map((blog: Blog) => (
                         <Card 
@@ -31,7 +37,9 @@ export default function Blogs() {
                         />
                     ))}
                 </section>
+                
             </div>
+            
         </main>
     )
 }

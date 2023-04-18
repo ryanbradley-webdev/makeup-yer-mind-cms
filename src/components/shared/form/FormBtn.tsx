@@ -16,7 +16,12 @@ export default function FormBtn({ children, variant, onClick, submit }: FormBtnP
     }
 
     return (
-        <button style={localStyles} className={styles.formBtn} onClick={onClick} type={submit ? 'submit' : 'button'}>
+        <button
+            style={localStyles}
+            className={styles.formBtn}
+            onClick={onClick}
+            type={submit ? 'submit' : 'button'}
+        >
             {children}
         </button>
     )

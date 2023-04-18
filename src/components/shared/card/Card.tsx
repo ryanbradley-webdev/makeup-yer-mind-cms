@@ -22,7 +22,7 @@ type CardProps = {
 export default function Card({ type, content, id, image, image2 }: CardProps) {
     const [deleteModalVisible, setDeleteModalVisible] = useState<boolean>(false)
 
-    const { deleteBlog, deleteLook } = useContext(DataContext) as Firestore
+    const { deleteArticle } = useContext(DataContext) as Firestore
 
     const navigate = useNavigate()
 
@@ -49,19 +49,32 @@ export default function Card({ type, content, id, image, image2 }: CardProps) {
             height: 'fit-content'
         },
         doubleImg: {
-            width: '150px'
+            width: '150px',
+            height: '152px',
+            objectFit: 'cover' as CSSProperties['objectFit']
+        },
+        span: {
+            fontWeight: 'bold',
+            color: 'white'
         }
     }
 
+    // generate image card image layout depending on whether one or two images are present (blog vs look)
+    // first check if second image exists
     const cardImage = image2 ? (
+        // if second image URL exists, generate a two-image container
         <div style={localStyles.doubleImgContainer}>
             <img src={image} alt="" style={localStyles.doubleImg} />
             <img src={image2} alt="" style={localStyles.doubleImg} />
         </div>
-    ) : <div style={localStyles.singleImgContainer}>
+    ) : (
+        // otherwise generate a single-image container
+        <div style={localStyles.singleImgContainer}>
             <img src={image} alt="" style={localStyles.singleImg} />
         </div>
+    )
 
+    // if no image exists, generate a placeholder of defined dimensions for UI consistency
     const cardImagePlaceholder = (
         <div className={styles.placeholder}>
             <ImageIcon/>
@@ -72,62 +85,86 @@ export default function Card({ type, content, id, image, image2 }: CardProps) {
         setDeleteModalVisible(!deleteModalVisible)
     }
 
-    function deleteArticle() {
-        if (type === 'blog') deleteBlog(id)
-                                .then(() => toggleDeleteModal())
-                                .catch(err => console.log(err))
-        if (type === 'look') deleteLook(id)
-                                .then(() => toggleDeleteModal())
-                                .catch(err => console.log(err))
+    // deletes target article from database
+    function handleDeleteArticle() {
+        deleteArticle(id, `${type}s`)
+            // if successful, close the delete modal
+            // TODO add success UI
+            .then(() => toggleDeleteModal())
+            //if failure, log result to console
+            // TODO add error handling UI
+            .catch(err => console.log(err))
     }
 
     return (
         <div className={styles.card}>
+
             <div className={styles.img_container}>
+
                 {image === '' ? cardImagePlaceholder : cardImage}
+
                 <div className={styles.card_info}>
+
                     <h3 className={styles.title}>{content.title}</h3>
                     {
-                        content.draft ?
-                        <span className={styles.draft}>Draft</span> : 
+                        content.draft
+                        ?
+                        <span className={styles.draft}>Draft</span>
+                        :
                         <div className={styles.details}>
+
                             <span>
                                 <EyeIcon /> 
                                 Views: 
-                                <span style={{ fontWeight: 'bold', color: 'white' }}>
+                                <span style={localStyles.span}>
                                     {content.views}
                                 </span>
                             </span>
+
                             <span>
                                 <HeartIcon /> 
                                 Likes: 
-                                <span style={{ fontWeight: 'bold', color: 'white' }}>
+                                <span style={localStyles.span}>
                                     {content.likes}
                                 </span>
                             </span>
+
                             <span>
                                 <CommentIcon /> 
                                 Comments: 
-                                <span style={{ fontWeight: 'bold', color: 'white' }}>
+                                <span style={localStyles.span}>
                                     {content.comments.length}
                                 </span>
                             </span>
+
                         </div>
                     }
                 </div>
+
             </div>
+
             <div className={styles.btn_div}>
+
                 <CardBtn variant="edit" handleClick={() => navigate(`${content.id}`)} />
                 <CardBtn variant="delete" handleClick={toggleDeleteModal} />
+
             </div>
+
             <Modal isVisible={deleteModalVisible}>
+
                 <h3>Delete This {titleCase(type)}?</h3>
+
                 <h5>There's no going back...</h5>
+
                 <div className='modal-btn-div'>
+
                     <FormBtn onClick={toggleDeleteModal}>Cancel</FormBtn>
-                    <FormBtn variant='red' onClick={deleteArticle}>Delete</FormBtn>
+                    <FormBtn variant='red' onClick={handleDeleteArticle}>Delete</FormBtn>
+                    
                 </div>
+
             </Modal>
+
         </div>
     )
 }

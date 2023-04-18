@@ -21,13 +21,17 @@ export default function CardBtn({ handleClick, variant }: CardBtnProps) {
 
     const deleteContent = (
         <>
-            <TrashIcon color={null} />
+            <TrashIcon />
             <p>Delete</p>
         </>
     )
 
     return (
-        <button onClick={handleClick} className={styles.btn} style={addStyles}>
+        <button
+            onClick={handleClick}
+            className={styles.btn}
+            style={addStyles}
+        >
             {variant === 'edit' && editContent}
             {variant === 'delete' && deleteContent}
         </button>

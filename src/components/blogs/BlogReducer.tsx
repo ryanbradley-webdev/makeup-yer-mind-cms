@@ -10,26 +10,49 @@ export const initialBlog: Blog = {
     likes: 0,
     views: 0,
     createdAt: null,
+    updatedAt: null,
     draft: true
 }
 
 export function reducer (state: Blog, action: Action): Blog {
+    let newState
+
     switch (action.type) {
+
         case ACTIONS.CHANGE_TITLE:
-            return { ...state, title: action.payload } as Blog
+            newState = { ...state, title: action.payload }
+            break
+
         case ACTIONS.CHANGE_DESCRIPTION:
-            return { ...state, description: action.payload } as Blog
+            newState = { ...state, description: action.payload }
+            break
+
         case ACTIONS.CHANGE_IMAGE:
-            return { ...state, image: action.payload } as Blog
+            newState = { ...state, image: action.payload }
+            break
+
         case ACTIONS.CHANGE_CONTENT:
-            return { ...state, content: action.payload } as Blog
+            newState = { ...state, content: action.payload }
+            break
+
         case ACTIONS.ADD_TOPIC:
-            return { ...state, topics: [...state.topics, action.payload] } as Blog
+            newState = { ...state, topics: [...state.topics, action.payload] }
+            break
+
         case ACTIONS.DELETE_TOPIC:
-            return { ...state, topics: state.topics.filter(topic => topic !== action.payload) } as Blog
+            newState = { ...state, topics: state.topics.filter(topic => topic !== action.payload) }
+            break
+
+        case ACTIONS.REFRESH_BLOG:
+            newState = action.payload
+            break
+
         default:
-            return state as Blog
+            newState = state
+            break
     }
+
+    return newState as Blog
 }
 
 export const ACTIONS = {
@@ -38,5 +61,6 @@ export const ACTIONS = {
     CHANGE_IMAGE: 'changeImage',
     CHANGE_CONTENT: 'changeContent',
     ADD_TOPIC: 'addTopic',
-    DELETE_TOPIC: 'deleteTopic'
+    DELETE_TOPIC: 'deleteTopic',
+    REFRESH_BLOG: 'refreshBlog'
 }

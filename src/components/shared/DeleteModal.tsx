@@ -1,3 +1,4 @@
+import { CSSProperties } from "react"
 import FormBtn from "./form/FormBtn"
 
 type DeleteModalProps = {
@@ -7,7 +8,14 @@ type DeleteModalProps = {
 }
 
 export default function DeleteModal({ deleteDraft, isVisible, closeModal }: DeleteModalProps) {
-    const styles = {
+    const localStyles = {
+        container: {
+            display: isVisible ? 'grid' : 'none',
+            position: 'absolute' as CSSProperties['position'],
+            inset: 0,
+            placeItems: 'center',
+            backgroundColor: '#000000d5'
+        },
         modal: {
             width: 'max-content',
             padding: '5rem',
@@ -23,14 +31,19 @@ export default function DeleteModal({ deleteDraft, isVisible, closeModal }: Dele
     }
 
     return (
-        <div style={{ display: isVisible ? 'grid' : 'none', position: 'absolute', inset: 0, placeItems: 'center', backgroundColor: '#000000d5' }}>
-            <div style={styles.modal}>
+        <div style={localStyles.container}>
+            
+            <div style={localStyles.modal}>
+                
                 <h2>Discard changes?</h2>
-                <div style={styles.buttonDiv}>
+                
+                <div style={localStyles.buttonDiv}>
                     <FormBtn onClick={closeModal}>Cancel</FormBtn>
                     <FormBtn variant='red' onClick={deleteDraft}>Delete</FormBtn>
                 </div>
+                
             </div>
+            
         </div>
     )
 }

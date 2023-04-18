@@ -1,7 +1,6 @@
 import React, { FormEvent } from 'react'
 import FormBtn from './FormBtn'
 import styles from './form.module.css'
-import { ACTIONS } from '../../blogs/BlogReducer'
 import PreviewIcon from '../../../assets/PreviewIcon'
 import TrashIcon from '../../../assets/TrashIcon'
 import SaveIcon from '../../../assets/SaveIcon'
@@ -20,12 +19,34 @@ type FormProps = {
     children: React.ReactNode
 }
 
+const ACTIONS = {
+    CHANGE_TITLE: 'changeTitle',
+    CHANGE_DESCRIPTION: 'changeDescription',
+    CHANGE_CONTENT: 'changeContent',
+}
+
 export default function Form({ handleSubmit, openDeleteModal, title, description, content, dispatch, preview, saveDraft, children }: FormProps) {
     const localStyles = {
         titleInput: {
             fontSize: '1.5rem',
             width: '50%'
         }
+    }
+
+    function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const data = {
+            type: ACTIONS.CHANGE_TITLE,
+            payload: e.target.value
+        }
+        dispatch(data)
+    }
+
+    function handleDescriptionChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const data = {
+            type: ACTIONS.CHANGE_DESCRIPTION,
+            payload: e.target.value
+        }
+        dispatch(data)
     }
 
     function handleContentChange(content: string) {
@@ -37,34 +58,65 @@ export default function Form({ handleSubmit, openDeleteModal, title, description
     }
 
     return (
-        <form action="" onSubmit={e => handleSubmit(e)} className={styles.form}>
+        <form action="" onSubmit={handleSubmit} className={styles.form}>
+
             <label htmlFor="title">Title</label>
-            <input style={localStyles.titleInput} type="text" name='title' id='title' value={title} onChange={(e) => dispatch({type: ACTIONS.CHANGE_TITLE, payload: e.target.value})} required />
+
+            <input
+                style={localStyles.titleInput}
+                type="text"
+                name='title'
+                id='title'
+                value={title}
+                onChange={handleTitleChange}
+                required
+            />
+
             <label htmlFor="description">Description</label>
-            <input type="text" name='description' id='description' value={description} onChange={(e) => dispatch({type: ACTIONS.CHANGE_DESCRIPTION, payload: e.target.value})} required />
+
+            <input
+                type="text"
+                name='description'
+                id='description'
+                value={description}
+                onChange={handleDescriptionChange}
+                required
+            />
+
             {children}
+
             <label htmlFor="content">Content</label>
+
             <Content value={content} handleChange={handleContentChange} />
+
             <div className={styles.button_div}>
+
                 <FormBtn onClick={preview}>
                     <PreviewIcon />
                     Preview
                 </FormBtn>
+
                 <div className={styles.button_div_right}>
+
                     <FormBtn variant='red' onClick={openDeleteModal}>
                         <TrashIcon color='#FFFFFF' />
                         Cancel
                     </FormBtn>
+
                     <FormBtn onClick={saveDraft}>
                         <SaveIcon />
                         Draft
                     </FormBtn>
+
                     <FormBtn variant='blue' submit>
                         <UploadIcon />
                         Publish
                     </FormBtn>
+
                 </div>
+
             </div>
+
         </form>
     )
 }

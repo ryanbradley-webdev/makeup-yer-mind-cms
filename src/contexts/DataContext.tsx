@@ -29,36 +29,51 @@ export function DataProvider({ children }: any) {
         setAllColors(await getColorData())
     }
 
-    async function saveBlog(newBlog: Blog, id: string | undefined) {
-        if (id) return await setDoc(doc(db, 'blogs', id), newBlog)
-                        .then(() => getBlogs())
-                        .catch(err => err)
-        else return await setDoc(doc(collection(db, 'blogs')), newBlog)
-                        .then(() => getBlogs())
-                        .catch(err => err)
+    async function saveArticle(newArticle: Blog | Look, type: string) {
+        // initialize null variable to store firestore reference
+        let articleRef = null
+        
+        // determine whether the supplied article has an id
+        // an id should exist if the supplied article is a previous draft or is a live article being edited
+        // a newly created article will have no id
+        if (newArticle.id) {
+            // set articleRef equal to the existing doc ref using the supplied id
+            articleRef = doc(db, type, newArticle.id)
+        } else {
+            // generate a new firestore doc ref
+            articleRef = doc(collection(db, type))
+
+            // set the id property of the new article equal to the id of the newly generated doc ref
+            newArticle.id = articleRef.id
+        }
+
+        // save the new article to firestore using the saved doc ref
+        return setDoc(articleRef, newArticle)
+            // if success refresh cached articles
+            .then(() => {
+                if (type === 'blogs') getBlogs()
+                if (type === 'looks') getLooks()
+            })
+            // if failure return the error
+            .catch(err => err.message)
     }
 
-    async function deleteBlog(id: string) {
-        return await deleteDoc(doc(db, 'blogs', id))
-                        .then(() => getBlogs())
-                        .catch(err => err)
+    async function deleteArticle(id: string, type: string) {
+        // if no id or type supplied, bail
+        if (!id || !type) return
+
+        // find and delete article from firestore
+        return await deleteDoc(doc(db, type, id))
+            // if success refresh cached articles
+            .then(() => {
+                if (type === 'blogs') getBlogs()
+                if (type === 'looks') getLooks()
+            })
+            // if failure return the error
+            .catch(err => err.message)
     }
 
-    async function saveLook(newLook: Look, id: string | undefined) {
-        if (id) return await setDoc(doc(db, 'looks', id), newLook)
-                        .then(() => getLooks())
-                        .catch(err => err)
-        else return await setDoc(doc(collection(db, 'looks')), newLook)
-                        .then(() => getLooks())
-                        .catch(err => err)
-    }
-
-    async function deleteLook(id: string) {
-        return await deleteDoc(doc(db, 'looks', id))
-                        .then(() => getLooks())
-                        .catch(err => err)
-    }
-
+    // on initial load, retrieve all necessary data from firestore
     useEffect(() => {
         getBlogs()
         getLooks()
@@ -71,11 +86,9 @@ export function DataProvider({ children }: any) {
         looks,
         messages,
         allColors,
-        saveBlog,
-        deleteBlog,
-        saveLook,
-        deleteLook,
         getMessages,
+        saveArticle,
+        deleteArticle
     }
 
     return (
