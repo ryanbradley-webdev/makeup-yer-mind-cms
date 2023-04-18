@@ -12,7 +12,7 @@ export default function ProgressRing() {
     useEffect(() => {
         const interval = setInterval(() => {
             setCounter(prev => prev + 1)
-        }, 1000)
+        }, 750)
 
         // clear interval upon component unmount
         return () => clearInterval(interval)

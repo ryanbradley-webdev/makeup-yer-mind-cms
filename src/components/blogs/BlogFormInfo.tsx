@@ -1,11 +1,11 @@
-import { useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import Chip from '../shared/Chip'
 import TinyBtn from '../shared/TinyBtn'
-import { uploadImg } from '../../hooks/useStorage'
 import slugify from 'slugify'
 import { ACTIONS } from './BlogReducer'
 import ImgUploader from '../shared/form/ImgUploader'
 import { v4 as uuid } from 'uuid'
+import DataContext from '../../contexts/DataContext'
 
 type BlogFormInfoProps = {
     topics: string[],
@@ -17,6 +17,8 @@ export default function BlogFormInfoCopy({ topics, dispatch, image }: BlogFormIn
     const [imgLoading, setImageLoading] = useState<boolean>(false)
 
     const topicRef= useRef<HTMLInputElement>(null)
+
+    const { uploadImg } = useContext(DataContext) as Firestore
 
     function addTopic() {
         // first, check that topicRef isn't null

@@ -1,9 +1,7 @@
 import { createContext, useEffect, useState } from "react";
-import { getMessageData, getBlogData, getLookData, getColorData } from '../hooks/useFirestore'
-import { app } from '../lib/firebase'
-import { getFirestore, collection, doc, setDoc, deleteDoc } from 'firebase/firestore'
-
-const db = getFirestore(app)
+import { db, storage } from '../lib/firebase'
+import { collection, doc, setDoc, deleteDoc, query, orderBy, getDocs, DocumentData } from 'firebase/firestore'
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 const DataContext = createContext<Firestore | null>(null)
 
@@ -14,19 +12,19 @@ export function DataProvider({ children }: any) {
     const [allColors, setAllColors] = useState<Color[]>([])
 
     async function getBlogs() {
-        setBlogs(await getBlogData())
+        setBlogs(await getFirestoreDocuments('blogs', true) as Blog[])
     }
 
     async function getLooks() {
-        setLooks(await getLookData())
+        setLooks(await getFirestoreDocuments('looks', true) as Look[])
     }
 
     async function getMessages() {
-        setMessages(await getMessageData())
+        setMessages(await getFirestoreDocuments('messages', true) as Message[])
     }
 
     async function getAllColors() {
-        setAllColors(await getColorData())
+        setAllColors(await getFirestoreDocuments('color-samples', false) as Color[])
     }
 
     async function saveArticle(newArticle: Blog | Look, type: string) {
@@ -73,6 +71,20 @@ export function DataProvider({ children }: any) {
             .catch(err => err.message)
     }
 
+    async function uploadImg(imagePath: string, imageName: string, file: File) {
+        // create a new reference in firebase storage for the image
+        const imageRef = ref(storage, `${imagePath}/${imageName}`)
+
+        // commence file upload and return a promise for the result of the upload
+        return uploadBytesResumable(imageRef, file)
+            // if success return the download URL
+            .then(async () => {
+                return await getDownloadURL(imageRef)
+            })
+            // if failure return the error
+            .catch(err => err.message)
+    }
+
     // on initial load, retrieve all necessary data from firestore
     useEffect(() => {
         getBlogs()
@@ -88,7 +100,8 @@ export function DataProvider({ children }: any) {
         allColors,
         getMessages,
         saveArticle,
-        deleteArticle
+        deleteArticle,
+        uploadImg
     }
 
     return (
@@ -96,6 +109,41 @@ export function DataProvider({ children }: any) {
             {children}
         </DataContext.Provider>
     )
+}
+
+// modular function for getting all documents from each firestore collection individually
+async function getFirestoreDocuments(type: string, isOrdered: boolean) {
+    // initialize empty array for messages, color samples, and published blogs and looks
+    const content: DocumentData[] = []
+
+    // initialize empty array for blog and look drafts
+    const drafts: DocumentData[] = []
+
+    // if query is to be ordered (all collections except colors) the property and direction is chosen based on type
+    const orderByParam = type === 'messages' ? 'sentAt' : 'createdAt'
+    const orderByDirection = type === 'messages' ? 'asc' : 'desc'
+
+    // reference and query created, and documents fetched
+    const docRef = collection(db, type)
+    const q = isOrdered ? query(docRef, orderBy(orderByParam, orderByDirection)) : query(docRef)
+    const docs = await getDocs(q)
+
+    // documents are modified and sorted into the appropriate array
+    docs.forEach(doc => {
+        const docData = doc.data()
+
+        // since the id field is not populated for colors and messages, the doc id is added to the JS object
+        if (type === 'color-samples' || type === 'messages') {
+            docData.id = doc.id
+        }
+
+        // drafts are placed in the draft array, all others are placed in the content array
+        if (docData.draft) drafts.push(docData)
+        else content.push(docData)
+    })
+
+    // the two arrays are combined such that drafts are placed first in the combined array, if present
+    return drafts.concat(content)
 }
 
 export default DataContext

@@ -1,8 +1,7 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useContext } from 'react'
 import Chip from '../shared/Chip'
 import TinyBtn from '../shared/TinyBtn'
 import AddColor from './AddColor'
-import { uploadImg } from '../../hooks/useStorage'
 import slugify from 'slugify'
 import styles from './looks.module.css'
 import { ACTIONS } from './LookReducer'
@@ -10,6 +9,7 @@ import Modal from '../shared/Modal'
 import ImgUploader from '../shared/form/ImgUploader'
 import FormBtn from '../shared/form/FormBtn'
 import { v4 as uuid } from 'uuid'
+import DataContext from '../../contexts/DataContext'
 
 type LookFormInfoProps = {
     tags: string[],
@@ -23,7 +23,10 @@ export default function LookFormInfo({ tags, colors, image1, image2, dispatch }:
     const [addColorModalVisible, setAddColorModalVisible] = useState(false)
     const [image1Loading, setImage1Loading] = useState<boolean>(false)
     const [image2Loading, setImage2Loading] = useState<boolean>(false)
+
     const tagRef= useRef<HTMLInputElement>(null)
+
+    const { uploadImg } = useContext(DataContext) as Firestore
 
     function addTag() {
         // first check that tagRef isn't null
