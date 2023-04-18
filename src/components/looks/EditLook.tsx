@@ -9,7 +9,7 @@ import slugify from 'slugify'
 import { serverTimestamp } from 'firebase/firestore'
 import FormBtn from '../shared/form/FormBtn'
 import Modal from '../shared/Modal'
-import { initialLook, reducer } from './LookReducer'
+import { initialLook, reducer, ACTIONS } from './LookReducer'
 import PageHeader from '../shared/PageHeader'
 
 type EditLookProps = {
@@ -100,6 +100,12 @@ export default function EditLook({ type }: EditLookProps) {
             setColors(articleColors)
         }
     }, [allColors, look.colors])
+
+    // only has an effect on page refresh
+    // in the event of a page refresh, the context will load after the page and a state refresh is necessary
+    useEffect(() => {
+        dispatch({ type: ACTIONS.REFRESH_LOOK, payload: article })
+    }, [article])
 
     return (
         <main>

@@ -55,7 +55,7 @@ type DispatchArg = {
 
 type Action = {
     type: string,
-    payload?: string | string []
+    payload?: string | string [] | Blog | Look
 }
 
 type Firestore = {

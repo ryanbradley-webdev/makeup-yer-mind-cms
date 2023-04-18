@@ -1,4 +1,4 @@
-import React, { useContext, useReducer, useState } from 'react'
+import React, { useContext, useEffect, useReducer, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import DeleteModal from '../shared/DeleteModal'
 import { titleCase } from '../../util/functions'
@@ -8,7 +8,7 @@ import BlogFormInfo from './BlogFormInfo'
 import slugify from 'slugify'
 import BlogPreview from './BlogPreview'
 import { serverTimestamp } from 'firebase/firestore'
-import { initialBlog, reducer } from './BlogReducer'
+import { ACTIONS, initialBlog, reducer } from './BlogReducer'
 import PageHeader from '../shared/PageHeader'
 
 type EditBlogProps = {
@@ -91,6 +91,12 @@ export default function EditBlog({ type }: EditBlogProps) {
     function togglePreview() {
         setPreviewVisible(!previewVisible)
     }
+
+    // only has an effect on page refresh
+    // in the event of a page refresh, the context will load after the page and a state refresh is necessary
+    useEffect(() => {
+        dispatch({ type: ACTIONS.REFRESH_BLOG, payload: article })
+    }, [article])
 
     return (
         <main>
