@@ -23,17 +23,23 @@ main {
 }
 
 main {
+  height: calc(100% - 66px);
   flex-grow: 1;
   background-image: url('/Logo.svg');
   background-position: center;
   background-repeat: no-repeat;
+  overflow-y: scroll;
   background-size: 80vw;
 }
 
 .wrapper {
-  height: 100vh;
   padding: 2rem;
-  overflow-y: scroll;
+}
+
+@media screen and (min-width: 1024px) {
+  main {
+    height: 100vh;
+  }
 }
 
 button {
