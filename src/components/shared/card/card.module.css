@@ -1,8 +1,10 @@
 .card {
     width: 300px;
     height: fit-content;
-    margin: 1rem auto;
+    margin-inline: auto;
     background-color: var(--color-dark-grey);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 @media screen and (min-width: 1200px) {
@@ -11,6 +13,21 @@
         justify-content: space-between;
         width: auto;
         max-width: 1000px;
+        margin-bottom: 1rem;
+    }
+}
+
+.card h5 {
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--color-light-grey);
+}
+
+@media screen and (max-width: 1200px) {
+    .card h5 {
+        display: none;
     }
 }
 
@@ -22,7 +39,7 @@
 @media screen and (min-width: 1200px) {
     .title {
         font-size: 1.5rem;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.25rem;
     }
 }
 
@@ -64,7 +81,6 @@
 @media screen and (min-width: 1200px) {
     .img_container {
         display: flex;
-        
         width: 100%;
     }
 

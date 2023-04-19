@@ -26,6 +26,20 @@ export default function Card({ type, content, id, image, image2 }: CardProps) {
 
     const navigate = useNavigate()
 
+    const date = () => {
+        if (content.draft) return null
+        const timestamp = content.updatedAt ? content.updatedAt.seconds : content.createdAt.seconds
+        const date = new Date(timestamp * 1000).toLocaleDateString()
+        return (
+            <h5>
+                <span>
+                    {content.updatedAt ? 'Updated: ' : 'Posted: '}
+                </span>
+                {date}
+            </h5>
+        )
+    }
+
     const localStyles = {
         placeholder: {
             width: '300px',
@@ -111,6 +125,8 @@ export default function Card({ type, content, id, image, image2 }: CardProps) {
                         ?
                         <span className={styles.draft}>Draft</span>
                         :
+                        <>
+                        {!content.draft && date()}
                         <div className={styles.details}>
 
                             <span>
@@ -138,6 +154,7 @@ export default function Card({ type, content, id, image, image2 }: CardProps) {
                             </span>
 
                         </div>
+                        </>
                     }
                 </div>
 
