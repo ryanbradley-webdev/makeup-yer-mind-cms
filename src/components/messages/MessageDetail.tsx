@@ -17,6 +17,10 @@ export default function MessageDetail() {
         }
     }
 
+    function markMessageUnread() {
+        if (specificMessage?.read) changeMessageStatus()
+    }
+
     useEffect(() => {
         if (!specificMessage?.read) {
             changeMessageStatus()
@@ -26,16 +30,28 @@ export default function MessageDetail() {
     return (
         <main>
             
-            <div className="wrapper">
+            <div className={styles.detail}>
                 
-                <h1>{specificMessage?.name}</h1>
+                {specificMessage ? (
+                    <div className={styles.message}>
 
-                <button onClick={changeMessageStatus}>Mark as unread</button>
-                
-                <h5>{specificMessage && new Date(specificMessage.sentAt).toLocaleDateString()}</h5>
-                
-                <p className={styles.content}>{specificMessage?.content}</p>
-                
+                        <h1><span>Sent by: </span>{specificMessage.name}</h1>
+
+                        <button className={styles.btn} onClick={markMessageUnread}>Mark as unread</button>
+                        
+                        <h5><span>Sent on: </span>{new Date(specificMessage.sentAt).toLocaleDateString()}</h5>
+                        
+                        <span>Message:<br /></span>
+
+                        <p className={styles.content}>
+                            {specificMessage.content}
+                        </p>
+                    
+                    </div>
+                ) : (
+                    <div>Message not found</div>
+                )}
+
             </div>
             
         </main>
