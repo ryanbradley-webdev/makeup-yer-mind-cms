@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { db, storage } from '../lib/firebase'
-import { collection, doc, setDoc, deleteDoc, query, orderBy, getDocs, DocumentData } from 'firebase/firestore'
+import { collection, doc, setDoc, deleteDoc, query, orderBy, getDocs, DocumentData, updateDoc } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 const DataContext = createContext<Firestore | null>(null)
@@ -85,6 +85,16 @@ export function DataProvider({ children }: any) {
             .catch(err => err.message)
     }
 
+    async function toggleMessageRead(id: string, status: boolean) {
+        const messageRef = doc(db, 'messages', id)
+        return await updateDoc(messageRef, { read: !status })
+            .then(() => {
+                getMessages()
+                return 'sucess'
+            })
+            .catch(err => err.message)
+    }
+
     // on initial load, retrieve all necessary data from firestore
     useEffect(() => {
         getBlogs()
@@ -101,7 +111,8 @@ export function DataProvider({ children }: any) {
         getMessages,
         saveArticle,
         deleteArticle,
-        uploadImg
+        uploadImg,
+        toggleMessageRead
     }
 
     return (

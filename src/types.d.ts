@@ -66,5 +66,6 @@ type Firestore = {
     getMessages: () => void,
     saveArticle: (newArticle: Blog | Look, type: string) => Promis<void>,
     deleteArticle: (id: string, type: string) => Promise<void>,
-    uploadImg: (imagePath: string, imageName: string, file: File) => Promise<unknown>
+    uploadImg: (imagePath: string, imageName: string, file: File) => Promise<unknown>,
+    toggleMessageRead: (id: string, status: boolean) => Promise<any>
 }
