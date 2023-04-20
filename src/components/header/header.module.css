@@ -127,7 +127,11 @@
 .li svg {
     height: 63px;
     fill: var(--color-gold-secondary);
-    transition: scale 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+.active svg {
+    fill: var(--color-gold-link-active);
 }
 
 .li p {

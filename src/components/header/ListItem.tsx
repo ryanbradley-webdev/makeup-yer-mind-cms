@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import styles from './header.module.css'
 
 type ListItemProps = {
@@ -12,9 +12,9 @@ export default function ListItem({ children, path, closeMenu }: ListItemProps) {
     return (
         <li className={styles.li} onClick={closeMenu}>
             
-            <Link to={path}>
+            <NavLink to={path} className={({ isActive }) => isActive ? styles.active : '' }>
                 {children}
-            </Link>
+            </NavLink>
             
         </li>
     )
