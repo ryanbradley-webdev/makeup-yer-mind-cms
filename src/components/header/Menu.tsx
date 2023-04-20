@@ -8,7 +8,7 @@ type MenuProps = {
 
 export default function Menu({ menuVisible, toggleMenu }: MenuProps) {
     return (
-        <div className={menuVisible ? styles.menu_visible : styles.menu} id="menu">
+        <div className={menuVisible ? styles.menu_visible : styles.menu}>
             
             <ul>
                 

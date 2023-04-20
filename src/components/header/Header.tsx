@@ -2,12 +2,13 @@ import { useState } from 'react'
 import Burger from './Burger'
 import styles from './header.module.css'
 import Menu from './Menu'
+import { getWindowWidth } from '../../util/functions'
 
 export default function Header() {
     const [menuVisible, setMenuVisible] = useState(false)
 
     function toggleMenu() {
-        setMenuVisible(!menuVisible)
+        if (getWindowWidth() < 1024) setMenuVisible(!menuVisible)
     }
 
     return (

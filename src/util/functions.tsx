@@ -1,4 +1,7 @@
-
+export const getWindowWidth = () => {
+    const { innerWidth } = window
+    return innerWidth
+}
 
 export const titleCase = (string: string) => {
     const words = string.split(' ')
