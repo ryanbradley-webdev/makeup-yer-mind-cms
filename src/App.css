@@ -17,11 +17,6 @@
   }
 }
 
-header,
-main {
-  position: relative;
-}
-
 main {
   height: calc(100% - 66px);
   flex-grow: 1;

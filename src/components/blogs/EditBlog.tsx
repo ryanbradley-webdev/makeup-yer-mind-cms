@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useReducer, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import DeleteModal from '../shared/DeleteModal'
 import { titleCase } from '../../util/functions'
 import Form from '../shared/form/Form'
 import DataContext from '../../contexts/DataContext'
@@ -10,6 +9,8 @@ import BlogPreview from './BlogPreview'
 import { serverTimestamp } from 'firebase/firestore'
 import { ACTIONS, initialBlog, reducer } from './BlogReducer'
 import PageHeader from '../shared/PageHeader'
+import Modal from '../shared/Modal'
+import FormBtn from '../shared/form/FormBtn'
 
 type EditBlogProps = {
     type: string
@@ -129,12 +130,17 @@ export default function EditBlog({ type }: EditBlogProps) {
             </div>
             
             {previewVisible && <BlogPreview article={blog} togglePreview={togglePreview} />}
+
+            <Modal isVisible={deleteModalVisible}>
             
-            <DeleteModal 
-                deleteDraft={() => navigate('/blogs')}
-                isVisible={deleteModalVisible}
-                closeModal={toggleDeleteModal}
-            />
+                <h2>Discard changes?</h2>
+                
+                <div className='modal-btn-div'>
+                    <FormBtn onClick={toggleDeleteModal}>Cancel</FormBtn>
+                    <FormBtn variant='red' onClick={() => navigate('/blogs')}>Delete</FormBtn>
+                </div>
+                
+            </Modal>
             
         </main>
     )
