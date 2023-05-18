@@ -1,9 +1,10 @@
 #root {
+  position: relative;
   height: 100vh;
   height: 100dvh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 @media screen and (min-width: 1024px) {
