@@ -20,7 +20,7 @@ type Look = {
     title: string,
     slug: string,
     tags: string[],
-    colors: string[],
+    colors: Color[],
     likes: number,
     createdAt?: FieldValue,
     updatedAt?: FieldValue,
@@ -50,12 +50,12 @@ type Message = {
 
 type DispatchArg = {
     type: string,
-    payload: string | string[]
+    payload: string | string[] | Color[]
 }
 
 type Action = {
     type: string,
-    payload?: string | string [] | Blog | Look
+    payload?: string | string [] | Blog | Look | Color[]
 }
 
 type Firestore = {

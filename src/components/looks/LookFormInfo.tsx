@@ -1,4 +1,4 @@
-import { useRef, useState, useContext } from 'react'
+import { useRef, useState, useContext, Dispatch } from 'react'
 import Chip from '../shared/Chip'
 import TinyBtn from '../shared/TinyBtn'
 import AddColor from './AddColor'
@@ -16,7 +16,7 @@ type LookFormInfoProps = {
     colors: Color[],
     image1: string,
     image2: string,
-    dispatch: (arg: DispatchArg) => void
+    dispatch: Dispatch<Action>
 }
 
 export default function LookFormInfo({ tags, colors, image1, image2, dispatch }: LookFormInfoProps) {
@@ -54,10 +54,10 @@ export default function LookFormInfo({ tags, colors, image1, image2, dispatch }:
 
     function addColors(colors: Color[]) {
         // create an array of id's from selected colors
-        const newColors = colors.map(color => color.id)
+        // const newColors = colors.map(color => color.id)
 
         // add new array to current look state color id's
-        dispatch({ type: ACTIONS.ADD_COLORS, payload: newColors })
+        dispatch({ type: ACTIONS.ADD_COLORS, payload: colors })
     }
 
     function removeColor(id: string) {

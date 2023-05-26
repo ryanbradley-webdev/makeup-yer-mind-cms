@@ -18,42 +18,44 @@ export const initialLook: Look = {
 export function reducer (state: Look, action: Action): Look {
     let newLook
 
+    const payload: unknown = action.payload
+
     switch (action.type) {
         
         case ACTIONS.CHANGE_TITLE:
-            newLook = { ...state, title: action.payload }
+            newLook = { ...state, title: payload }
             break
 
         case ACTIONS.CHANGE_DESCRIPTION:
-            newLook = { ...state, description: action.payload }
+            newLook = { ...state, description: payload }
             break
 
         case ACTIONS.CHANGE_IMAGE_1:
-            newLook = { ...state, image1: action.payload }
+            newLook = { ...state, image1: payload }
             break
 
         case ACTIONS.CHANGE_IMAGE_2:
-            newLook = { ...state, image2: action.payload }
+            newLook = { ...state, image2: payload }
             break
 
         case ACTIONS.CHANGE_CONTENT:
-            newLook = { ...state, content: action.payload }
+            newLook = { ...state, content: payload }
             break
 
         case ACTIONS.ADD_TAG:
-            newLook = { ...state, tags: [...state.tags, action.payload] }
+            newLook = { ...state, tags: [...state.tags, payload] }
             break
 
         case ACTIONS.DELETE_TAG:
-            newLook = { ...state, tags: state.tags.filter(tag => tag !== action.payload) }
+            newLook = { ...state, tags: state.tags.filter(tag => tag !== payload) }
             break
 
         case ACTIONS.ADD_COLORS:
-            newLook = { ...state, colors: [...state.colors, ...(action.payload as string[])] }
+            newLook = { ...state, colors: [...state.colors, ...(payload as Color[])] }
             break
 
         case ACTIONS.DELETE_COLOR:
-            newLook = { ...state, colors: state.colors.filter((color: string) => color !== action.payload)}
+            newLook = { ...state, colors: state.colors.filter((color: Color) => color.id !== payload)}
             break
 
         case ACTIONS.REFRESH_LOOK:

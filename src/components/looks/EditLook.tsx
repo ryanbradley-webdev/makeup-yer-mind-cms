@@ -27,7 +27,6 @@ export default function EditLook({ type }: EditLookProps) {
     const article = looks.find((look: Look) => look.id === id) || initialLook
 
     const [look, dispatch] = useReducer(reducer, article)
-    const [colors, setColors] = useState<Color[]>([])
 
     const navigate = useNavigate()
 
@@ -88,19 +87,6 @@ export default function EditLook({ type }: EditLookProps) {
         setPreviewVisible(!previewVisible)
     }
 
-    // if database colors don't complete fetching until after this page renders, populate colors after initial page load
-    // this useEffect also runs every time a change is made to the look's color array, which only stores id's
-    useEffect(() => {
-        // first check if the colors have been fetched
-        if (allColors) {
-            // use the stored color id's to filter colors used in this look
-            const articleColors = allColors.filter((color: Color) => look.colors.includes(color.id))
-
-            // set color state to update UI with selected colors
-            setColors(articleColors)
-        }
-    }, [allColors, look.colors])
-
     // only has an effect on page refresh
     // in the event of a page refresh, the context will load after the page and a state refresh is necessary
     useEffect(() => {
@@ -129,7 +115,7 @@ export default function EditLook({ type }: EditLookProps) {
 
                     <LookFormInfo
                         tags={look.tags}
-                        colors={colors}
+                        colors={look.colors}
                         image1={look.image1}
                         image2={look.image2}
                         dispatch={dispatch}
@@ -139,7 +125,7 @@ export default function EditLook({ type }: EditLookProps) {
 
             </div>
 
-            {previewVisible && <LookPreview article={look} togglePreview={togglePreview} colors={colors} />}
+            {previewVisible && <LookPreview article={look} togglePreview={togglePreview} colors={look.colors} />}
 
             <Modal isVisible={deleteModalVisible}>
 

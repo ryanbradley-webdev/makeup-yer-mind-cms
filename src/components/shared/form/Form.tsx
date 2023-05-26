@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react'
+import React, { Dispatch, FormEvent } from 'react'
 import FormBtn from './FormBtn'
 import styles from './form.module.css'
 import PreviewIcon from '../../../assets/PreviewIcon'
@@ -13,7 +13,7 @@ type FormProps = {
     title: string,
     description: string,
     content: string,
-    dispatch: (arg: DispatchArg) => void
+    dispatch: Dispatch<Action>
     preview: () => void,
     saveDraft: () => void,
     children: React.ReactNode
