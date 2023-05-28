@@ -39,7 +39,7 @@ export default function MessageDetail() {
 
                         <button className={styles.btn} onClick={markMessageUnread}>Mark as unread</button>
                         
-                        <h5><span>Sent on: </span>{new Date(specificMessage.sentAt).toLocaleDateString()}</h5>
+                        <h5><span>Sent on: </span>{new Date(specificMessage.sentAt.seconds * 1000).toDateString()}</h5>
                         
                         <span>Message:<br /></span>
 

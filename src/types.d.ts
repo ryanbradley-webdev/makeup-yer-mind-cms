@@ -45,7 +45,7 @@ type Message = {
     name: string,
     content: string,
     read: boolean,
-    sentAt: number
+    sentAt: FieldValue
 }
 
 type DispatchArg = {
