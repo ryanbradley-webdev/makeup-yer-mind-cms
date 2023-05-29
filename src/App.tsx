@@ -10,6 +10,8 @@ import EditLook from './components/looks/EditLook'
 import MessageDetail from './components/messages/MessageDetail'
 import Home from './components/home/Home'
 import NotFound from './components/NotFound'
+import ColorMatches from './components/color-matches/ColorMatches'
+import Videos from './components/videos/Videos'
 
 export default function App() {
   return (
@@ -28,8 +30,11 @@ export default function App() {
             <Route path='new' element={<EditLook type='new' />} />
             <Route path=':id' element={<EditLook type='edit' />} />
           </Route>
+          <Route path='color-matches'>
+            <Route index element={<ColorMatches />} />
+          </Route>
           <Route path='videos'>
-            <Route index element={'Videos'} />
+            <Route index element={<Videos />} />
           </Route>
           <Route path='messages'>
             <Route index element={<Messages />} />
