@@ -28,3 +28,17 @@
 .card p {
     color: #D9D9D9;
 }
+
+.btn {
+    color: var(--color-gold-primary);
+    padding: 6px;
+    background: transparent;
+    border: 1px solid var(--color-gold-primary);
+    border-radius: 4px;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn:is(:hover, :focus) {
+    color: black;
+    background-color: var(--color-gold-primary);
+}

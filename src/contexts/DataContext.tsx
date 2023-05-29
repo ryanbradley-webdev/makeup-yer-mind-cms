@@ -112,7 +112,7 @@ export function DataProvider({ children }: any) {
 
     async function toggleColorMatchComplete(id:string, status: boolean) {
         const colorMatchRef = doc(db, 'color-matches', id)
-        return await updateDoc(colorMatchRef, { complete: !status })
+        return await updateDoc(colorMatchRef, { completed: !status })
             .then(() => {
                 getColorMatches()
                 return 'success'
