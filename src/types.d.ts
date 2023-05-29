@@ -48,6 +48,22 @@ type Message = {
     sentAt: FieldValue
 }
 
+type ColorMatch = {
+    id?: string,
+    firstName: string,
+    lastName:string,
+    email: string,
+    referral: string,
+    veinColor: string,
+    coverage: string,
+    selfie: string,
+    customCart: boolean,
+    address?: string,
+    phone?: string,
+    read: boolean,
+    completed: boolean
+}
+
 type DispatchArg = {
     type: string,
     payload: string | string[] | Color[]

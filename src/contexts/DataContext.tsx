@@ -9,6 +9,7 @@ export function DataProvider({ children }: any) {
     const [blogs, setBlogs] = useState<Blog[]>([])
     const [looks, setLooks] = useState<Look[]>([])
     const [messages, setMessages] = useState<Message[]>([])
+    const [colorMatches, setColorMatches] = useState<ColorMatch[]>([])
     const [allColors, setAllColors] = useState<Color[]>([])
 
     async function getBlogs() {
@@ -21,6 +22,10 @@ export function DataProvider({ children }: any) {
 
     async function getMessages() {
         setMessages(await getFirestoreDocuments('messages', true) as Message[])
+    }
+
+    async function getColorMatches() {
+        setColorMatches(await getFirestoreDocuments('color-matches', true) as ColorMatch[])
     }
 
     async function getAllColors() {
@@ -100,6 +105,7 @@ export function DataProvider({ children }: any) {
         getBlogs()
         getLooks()
         getMessages()
+        getColorMatches()
         getAllColors()
     }, [])
 
