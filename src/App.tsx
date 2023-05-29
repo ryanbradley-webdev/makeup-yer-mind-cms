@@ -12,6 +12,7 @@ import Home from './components/home/Home'
 import NotFound from './components/NotFound'
 import ColorMatches from './components/color-matches/ColorMatches'
 import Videos from './components/videos/Videos'
+import ColorMatchDetail from './components/color-matches/ColorMatchDetail'
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
           </Route>
           <Route path='color-matches'>
             <Route index element={<ColorMatches />} />
+            <Route path=':id' element={<ColorMatchDetail />} />
           </Route>
           <Route path='videos'>
             <Route index element={<Videos />} />

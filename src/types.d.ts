@@ -41,7 +41,7 @@ type Color = {
 }
 
 type Message = {
-    id?: string,
+    id: string,
     name: string,
     content: string,
     read: boolean,
@@ -49,7 +49,7 @@ type Message = {
 }
 
 type ColorMatch = {
-    id?: string,
+    id: string,
     firstName: string,
     lastName:string,
     email: string,
@@ -61,7 +61,8 @@ type ColorMatch = {
     address?: string,
     phone?: string,
     read: boolean,
-    completed: boolean
+    completed: boolean,
+    sentAt: FieldValue
 }
 
 type DispatchArg = {
@@ -78,10 +79,13 @@ type Firestore = {
     blogs: Blog[],
     looks: Look[],
     messages: Message[],
+    colorMatches: ColorMatch[],
     allColors: Color[],
     getMessages: () => void,
     saveArticle: (newArticle: Blog | Look, type: string) => Promis<void>,
     deleteArticle: (id: string, type: string) => Promise<void>,
     uploadImg: (imagePath: string, imageName: string, file: File) => Promise<unknown>,
-    toggleMessageRead: (id: string, status: boolean) => Promise<any>
+    toggleMessageRead: (id: string, status: boolean) => Promise<string>,
+    toggleColorMatchRead: (id: string, status: boolean) => Promise<string>,
+    toggleColorMatchComplete: (id: string, status: boolean) => Promise<string>
 }

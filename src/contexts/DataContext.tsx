@@ -95,7 +95,27 @@ export function DataProvider({ children }: any) {
         return await updateDoc(messageRef, { read: !status })
             .then(() => {
                 getMessages()
-                return 'sucess'
+                return 'success'
+            })
+            .catch(err => err.message)
+    }
+
+    async function toggleColorMatchRead(id:string, status: boolean) {
+        const colorMatchRef = doc(db, 'color-matches', id)
+        return await updateDoc(colorMatchRef, { read: !status })
+            .then(() => {
+                getColorMatches()
+                return 'success'
+            })
+            .catch(err => err.message)
+    }
+
+    async function toggleColorMatchComplete(id:string, status: boolean) {
+        const colorMatchRef = doc(db, 'color-matches', id)
+        return await updateDoc(colorMatchRef, { complete: !status })
+            .then(() => {
+                getColorMatches()
+                return 'success'
             })
             .catch(err => err.message)
     }
@@ -113,12 +133,15 @@ export function DataProvider({ children }: any) {
         blogs,
         looks,
         messages,
+        colorMatches,
         allColors,
         getMessages,
         saveArticle,
         deleteArticle,
         uploadImg,
-        toggleMessageRead
+        toggleMessageRead,
+        toggleColorMatchRead,
+        toggleColorMatchComplete
     }
 
     return (
@@ -137,8 +160,8 @@ async function getFirestoreDocuments(type: string, isOrdered: boolean) {
     const drafts: DocumentData[] = []
 
     // if query is to be ordered (all collections except colors) the property and direction is chosen based on type
-    const orderByParam = type === 'messages' ? 'sentAt' : 'createdAt'
-    const orderByDirection = type === 'messages' ? 'asc' : 'desc'
+    const orderByParam = ['messages', 'color-matches'].includes(type) ? 'sentAt' : 'createdAt'
+    const orderByDirection = 'desc'
 
     // reference and query created, and documents fetched
     const docRef = collection(db, type)
@@ -150,7 +173,7 @@ async function getFirestoreDocuments(type: string, isOrdered: boolean) {
         const docData = doc.data()
 
         // since the id field is not populated for colors and messages, the doc id is added to the JS object
-        if (type === 'color-samples' || type === 'messages') {
+        if (['color-matches', 'color-samples', 'messages'].includes(type)) {
             docData.id = doc.id
         }
 
