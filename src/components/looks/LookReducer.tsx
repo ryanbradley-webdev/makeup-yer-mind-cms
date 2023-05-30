@@ -8,7 +8,7 @@ export const initialLook: Look = {
     content: '',
     tags: [],
     colors: [],
-    comments: [],
+    comments: 0,
     likes: 0,
     views: 0,
     createdAt: null,

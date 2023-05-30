@@ -6,7 +6,7 @@ export const initialBlog: Blog = {
     image: '',
     content: '',
     topics: [],
-    comments: [],
+    comments: 0,
     likes: 0,
     views: 0,
     createdAt: null,
