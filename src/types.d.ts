@@ -1,6 +1,6 @@
 type Blog = {
     id: string,
-    comments: any[],
+    comments: number,
     title: string,
     slug: string,
     topics: string[],
@@ -17,7 +17,7 @@ type Blog = {
 
 type Look = {
     id: string,
-    comments: any[],
+    comments: number,
     title: string,
     slug: string,
     tags: string[],
