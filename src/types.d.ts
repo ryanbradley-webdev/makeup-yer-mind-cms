@@ -11,7 +11,8 @@ type Blog = {
     image: string,
     content: string,
     description: string,
-    draft: boolean
+    draft: boolean,
+    docType: 'blog'
 }
 
 type Look = {
@@ -29,7 +30,8 @@ type Look = {
     image2: string,
     content: string,
     description: string,
-    draft: boolean
+    draft: boolean,
+    docType: 'look'
 }
 
 type Color = {
@@ -45,7 +47,8 @@ type Message = {
     name: string,
     content: string,
     read: boolean,
-    sentAt: FieldValue
+    sentAt: FieldValue,
+    docType: 'message'
 }
 
 type ColorMatch = {
@@ -62,7 +65,19 @@ type ColorMatch = {
     phone?: string,
     read: boolean,
     completed: boolean,
-    sentAt: FieldValue
+    sentAt: FieldValue,
+    docType: 'color-match'
+}
+
+type Promo = {
+    id: string,
+    title: string,
+    slug: string,
+    description: string,
+    image: string,
+    link: string,
+    active: boolean,
+    docType: 'promotion'
 }
 
 type DispatchArg = {

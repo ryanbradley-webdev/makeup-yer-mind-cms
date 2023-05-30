@@ -1,5 +1,5 @@
 import PageHeader from '../shared/PageHeader'
-import styles from './videos.module.css'
+import styles from './promotions.module.css'
 
 export default function Videos() {
     return (
@@ -10,7 +10,7 @@ export default function Videos() {
                 <PageHeader>
 
                     <h1>
-                        Videos
+                        Promotions
                     </h1>
 
                 </PageHeader>

@@ -2,7 +2,6 @@ import { Routes, Route } from 'react-router-dom'
 import Header from './components/header/Header'
 import Blogs from './components/blogs/Blogs'
 import Looks from './components/looks/Looks'
-import './App.css'
 import { DataProvider } from './contexts/DataContext'
 import Messages from './components/messages/Messages'
 import EditBlog from './components/blogs/EditBlog'
@@ -11,8 +10,10 @@ import MessageDetail from './components/messages/MessageDetail'
 import Home from './components/home/Home'
 import NotFound from './components/NotFound'
 import ColorMatches from './components/color-matches/ColorMatches'
-import Videos from './components/videos/Videos'
+import Promos from './components/promotions/Promos'
+import PromosDetail from './components/promotions/PromosDetail'
 import ColorMatchDetail from './components/color-matches/ColorMatchDetail'
+import './App.css'
 
 export default function App() {
   return (
@@ -35,8 +36,9 @@ export default function App() {
             <Route index element={<ColorMatches />} />
             <Route path=':id' element={<ColorMatchDetail />} />
           </Route>
-          <Route path='videos'>
-            <Route index element={<Videos />} />
+          <Route path='promotions'>
+            <Route index element={<Promos />} />
+            <Route path=':id' element={<PromosDetail />} />
           </Route>
           <Route path='messages'>
             <Route index element={<Messages />} />
