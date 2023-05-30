@@ -11,7 +11,8 @@ export const initialBlog: Blog = {
     views: 0,
     createdAt: null,
     updatedAt: null,
-    draft: true
+    draft: true,
+    docType: 'blog'
 }
 
 export function reducer (state: Blog, action: Action): Blog {

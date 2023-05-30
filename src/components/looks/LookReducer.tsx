@@ -12,7 +12,8 @@ export const initialLook: Look = {
     likes: 0,
     views: 0,
     createdAt: null,
-    draft: true
+    draft: true,
+    docType: 'look'
 }
 
 export function reducer (state: Look, action: Action): Look {

@@ -149,7 +149,7 @@ export default function Card({ type, content, id, image, image2 }: CardProps) {
                                 <CommentIcon /> 
                                 Comments: 
                                 <span style={localStyles.span}>
-                                    {content.comments.length}
+                                    {content.comments}
                                 </span>
                             </span>
 
