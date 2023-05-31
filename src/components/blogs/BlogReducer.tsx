@@ -12,6 +12,7 @@ export const initialBlog: Blog = {
     createdAt: null,
     updatedAt: null,
     draft: true,
+    type: 'products',
     docType: 'blog'
 }
 
@@ -35,6 +36,9 @@ export function reducer (state: Blog, action: Action): Blog {
         case ACTIONS.CHANGE_CONTENT:
             newState = { ...state, content: action.payload }
             break
+
+        case ACTIONS.CHANGE_TYPE:
+            newState = { ...state, type: action.payload }
 
         case ACTIONS.ADD_TOPIC:
             newState = { ...state, topics: [...state.topics, action.payload] }
@@ -61,6 +65,7 @@ export const ACTIONS = {
     CHANGE_DESCRIPTION: 'changeDescription',
     CHANGE_IMAGE: 'changeImage',
     CHANGE_CONTENT: 'changeContent',
+    CHANGE_TYPE: 'changeType',
     ADD_TOPIC: 'addTopic',
     DELETE_TOPIC: 'deleteTopic',
     REFRESH_BLOG: 'refreshBlog'

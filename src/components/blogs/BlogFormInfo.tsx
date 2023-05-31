@@ -6,15 +6,15 @@ import { ACTIONS } from './BlogReducer'
 import ImgUploader from '../shared/form/ImgUploader'
 import { v4 as uuid } from 'uuid'
 import DataContext from '../../contexts/DataContext'
-import styles from './blogs.module.css'
 
 type BlogFormInfoProps = {
     topics: string[],
+    type: string,
     dispatch: (arg: DispatchArg) => void,
     image: string
 }
 
-export default function BlogFormInfoCopy({ topics, dispatch, image }: BlogFormInfoProps) {
+export default function BlogFormInfoCopy({ topics, type, dispatch, image }: BlogFormInfoProps) {
     const [imgLoading, setImageLoading] = useState<boolean>(false)
 
     const topicRef= useRef<HTMLInputElement>(null)
@@ -70,6 +70,19 @@ export default function BlogFormInfoCopy({ topics, dispatch, image }: BlogFormIn
             >
                 Thumbnail
             </ImgUploader>
+
+            <label htmlFor="type">Blog Type</label>
+
+            <select 
+                name="type" 
+                id="type" 
+                onChange={e => dispatch({ type: ACTIONS.CHANGE_TYPE, payload: e.target.value })}
+                value={type}
+            >
+                <option value="products">Products</option>
+                <option value="lifestyle">Lifestyle</option>
+                <option value="tutorial">Tutorial</option>
+            </select>
 
             <label htmlFor="topics">Topics</label>
 
