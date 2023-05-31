@@ -26,13 +26,6 @@ const ACTIONS = {
 }
 
 export default function Form({ handleSubmit, openDeleteModal, title, description, content, dispatch, preview, saveDraft, children }: FormProps) {
-    const localStyles = {
-        titleInput: {
-            fontSize: '1.5rem',
-            width: '50%'
-        }
-    }
-
     function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
         const data = {
             type: ACTIONS.CHANGE_TITLE,
@@ -63,7 +56,6 @@ export default function Form({ handleSubmit, openDeleteModal, title, description
             <label htmlFor="title">Title</label>
 
             <input
-                style={localStyles.titleInput}
                 type="text"
                 name='title'
                 id='title'

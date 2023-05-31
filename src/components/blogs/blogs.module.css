@@ -7,31 +7,6 @@
     }
 }
 
-.form {
-    display: grid;
-}
-
-.form > * {
-    margin-bottom: 1rem;
-}
-
-.form button {
-    width: fit-content;
-}
-
-.button_div {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.button_div_right {
-    display: flex;
-    gap: 1rem;
-}
-
-.chips {
-    display: flex;
-    gap: 0.5rem;
-    margin-block: 0.75rem;
+.img_uploader {
+    width: 300px;
 }

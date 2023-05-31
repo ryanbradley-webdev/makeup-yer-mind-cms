@@ -9,10 +9,11 @@ type ImgUploaderProps = {
     name: string,
     children: string,
     number?: number,
-    img: string
+    img: string,
+    single?: boolean
 }
 
-export default function ImgUploader({ uploadImg, isLoading, name, children, number, img }: ImgUploaderProps) {
+export default function ImgUploader({ uploadImg, isLoading, name, children, number, img, single }: ImgUploaderProps) {
     function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
         if (e.target.files) uploadImg(e.target.files[0], number)
     }
@@ -24,7 +25,12 @@ export default function ImgUploader({ uploadImg, isLoading, name, children, numb
 
             <input type='file' name={name} id={name} accept='image/*' onChange={handleUpload} />
 
-            <div style={{ position: 'relative' }}>
+            <div 
+                style={{ 
+                    position: 'relative',
+                    width: single ? '300px' : '150px'
+                }}
+            >
 
                 {
                     // if image is supplied, render the image

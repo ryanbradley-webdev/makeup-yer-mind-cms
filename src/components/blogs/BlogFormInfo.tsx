@@ -6,6 +6,7 @@ import { ACTIONS } from './BlogReducer'
 import ImgUploader from '../shared/form/ImgUploader'
 import { v4 as uuid } from 'uuid'
 import DataContext from '../../contexts/DataContext'
+import styles from './blogs.module.css'
 
 type BlogFormInfoProps = {
     topics: string[],
@@ -65,6 +66,7 @@ export default function BlogFormInfoCopy({ topics, dispatch, image }: BlogFormIn
                 isLoading={imgLoading}
                 name='thumbnail'
                 img={image}
+                single
             >
                 Thumbnail
             </ImgUploader>
