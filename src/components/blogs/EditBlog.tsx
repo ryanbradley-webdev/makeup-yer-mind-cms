@@ -64,7 +64,7 @@ export default function EditBlog({ type }: EditBlogProps) {
         }
 
         // upload new blog to database
-        saveArticle(newBlog, 'blogs')
+        saveArticle(newBlog)
             // if success, open success modal and return to blogs page
             .then(() => successMessage())
             // otherwise log error
@@ -77,7 +77,7 @@ export default function EditBlog({ type }: EditBlogProps) {
         const draft = { ...blog, draft: true }
 
         // upload draft to database
-        saveArticle(draft, 'blogs')
+        saveArticle(draft)
             // if success, open success modal and return to blogs page
             .then(() => successMessage())
             // otherwise log error

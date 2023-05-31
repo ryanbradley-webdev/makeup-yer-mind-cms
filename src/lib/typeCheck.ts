@@ -15,3 +15,11 @@ export const dataIsColor = (data: DocumentData): data is Color => {
 export const dataIsPromo = (data: DocumentData): data is Promo => {
     return data.docType === 'promotion'
 }
+
+export const dataIsMessage = (data: DocumentData): data is Message => {
+    return data.docType === 'message'
+}
+
+export const dataIsColorMatch = (data: DocumentData): data is ColorMatch => {
+    return data.docType === 'color-match'
+}

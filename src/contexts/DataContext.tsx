@@ -1,7 +1,13 @@
 import { createContext, useEffect, useState } from "react";
 import { db, storage } from '../lib/firebase'
-import { collection, doc, setDoc, deleteDoc, query, orderBy, getDocs, DocumentData, updateDoc } from 'firebase/firestore'
+import { collection, doc, setDoc, deleteDoc, updateDoc } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { getAllColors } from "../lib/getAllColors";
+import { getAllBlogs } from "../lib/getAllBlogs";
+import { getAllLooks } from "../lib/getAllLooks";
+import { getAllMessages } from "../lib/getAllMessages";
+import { getAllColorMatches } from "../lib/getAllColorMatches";
+import { dataIsBlog, dataIsLook } from "../lib/typeCheck";
 
 const DataContext = createContext<Firestore | null>(null)
 
@@ -12,29 +18,45 @@ export function DataProvider({ children }: any) {
     const [colorMatches, setColorMatches] = useState<ColorMatch[]>([])
     const [allColors, setAllColors] = useState<Color[]>([])
 
-    async function getBlogs() {
-        setBlogs(await getFirestoreDocuments('blogs', true) as Blog[])
+    async function loadBlogs() {
+        const blogs = await getAllBlogs()
+
+        setBlogs(blogs)
     }
 
-    async function getLooks() {
-        setLooks(await getFirestoreDocuments('looks', true) as Look[])
+    async function loadLooks() {
+        const looks = await getAllLooks()
+
+        setLooks(looks)
     }
 
-    async function getMessages() {
-        setMessages(await getFirestoreDocuments('messages', true) as Message[])
+    async function loadMessages() {
+        const messages = await getAllMessages()
+
+        setMessages(messages)
     }
 
-    async function getColorMatches() {
-        setColorMatches(await getFirestoreDocuments('color-matches', true) as ColorMatch[])
+    async function loadColorMatches() {
+        const colorMatches = await getAllColorMatches()
+
+        setColorMatches(colorMatches)
     }
 
-    async function getAllColors() {
-        setAllColors(await getFirestoreDocuments('color-samples', false) as Color[])
+    async function loadColors() {
+        const colors = await getAllColors()
+
+        setAllColors(colors)
     }
 
-    async function saveArticle(newArticle: Blog | Look, type: string) {
+    async function saveArticle(newArticle: Blog | Look) {
         // initialize null variable to store firestore reference
         let articleRef = null
+
+        let type =
+            dataIsBlog(newArticle) && 'blogs' ||
+            dataIsLook(newArticle) && 'looks'
+
+        if (!type) return
         
         // determine whether the supplied article has an id
         // an id should exist if the supplied article is a previous draft or is a live article being edited
@@ -54,8 +76,8 @@ export function DataProvider({ children }: any) {
         return setDoc(articleRef, newArticle)
             // if success refresh cached articles
             .then(() => {
-                if (type === 'blogs') getBlogs()
-                if (type === 'looks') getLooks()
+                if (type === 'blogs') loadBlogs()
+                if (type === 'looks') loadLooks()
             })
             // if failure return the error
             .catch(err => err.message)
@@ -69,8 +91,8 @@ export function DataProvider({ children }: any) {
         return await deleteDoc(doc(db, type, id))
             // if success refresh cached articles
             .then(() => {
-                if (type === 'blogs') getBlogs()
-                if (type === 'looks') getLooks()
+                if (type === 'blogs') loadBlogs()
+                if (type === 'looks') loadLooks()
             })
             // if failure return the error
             .catch(err => err.message)
@@ -94,7 +116,7 @@ export function DataProvider({ children }: any) {
         const messageRef = doc(db, 'messages', id)
         return await updateDoc(messageRef, { read: !status })
             .then(() => {
-                getMessages()
+                loadMessages()
                 return 'success'
             })
             .catch(err => err.message)
@@ -104,7 +126,7 @@ export function DataProvider({ children }: any) {
         const colorMatchRef = doc(db, 'color-matches', id)
         return await updateDoc(colorMatchRef, { read: !status })
             .then(() => {
-                getColorMatches()
+                loadColorMatches()
                 return 'success'
             })
             .catch(err => err.message)
@@ -114,7 +136,7 @@ export function DataProvider({ children }: any) {
         const colorMatchRef = doc(db, 'color-matches', id)
         return await updateDoc(colorMatchRef, { completed: !status })
             .then(() => {
-                getColorMatches()
+                loadColorMatches()
                 return 'success'
             })
             .catch(err => err.message)
@@ -122,11 +144,11 @@ export function DataProvider({ children }: any) {
 
     // on initial load, retrieve all necessary data from firestore
     useEffect(() => {
-        getBlogs()
-        getLooks()
-        getMessages()
-        getColorMatches()
-        getAllColors()
+        loadBlogs()
+        loadLooks()
+        loadMessages()
+        loadColorMatches()
+        loadColors()
     }, [])
 
     const value: Firestore = {
@@ -135,7 +157,6 @@ export function DataProvider({ children }: any) {
         messages,
         colorMatches,
         allColors,
-        getMessages,
         saveArticle,
         deleteArticle,
         uploadImg,
@@ -149,41 +170,6 @@ export function DataProvider({ children }: any) {
             {children}
         </DataContext.Provider>
     )
-}
-
-// modular function for getting all documents from each firestore collection individually
-async function getFirestoreDocuments(type: string, isOrdered: boolean) {
-    // initialize empty array for messages, color samples, and published blogs and looks
-    const content: DocumentData[] = []
-
-    // initialize empty array for blog and look drafts
-    const drafts: DocumentData[] = []
-
-    // if query is to be ordered (all collections except colors) the property and direction is chosen based on type
-    const orderByParam = ['messages', 'color-matches'].includes(type) ? 'sentAt' : 'createdAt'
-    const orderByDirection = 'desc'
-
-    // reference and query created, and documents fetched
-    const docRef = collection(db, type)
-    const q = isOrdered ? query(docRef, orderBy(orderByParam, orderByDirection)) : query(docRef)
-    const docs = await getDocs(q)
-
-    // documents are modified and sorted into the appropriate array
-    docs.forEach(doc => {
-        const docData = doc.data()
-
-        // since the id field is not populated for colors and messages, the doc id is added to the JS object
-        if (['color-matches', 'color-samples', 'messages'].includes(type)) {
-            docData.id = doc.id
-        }
-
-        // drafts are placed in the draft array, all others are placed in the content array
-        if (docData.draft) drafts.push(docData)
-        else content.push(docData)
-    })
-
-    // the two arrays are combined such that drafts are placed first in the combined array, if present
-    return drafts.concat(content)
 }
 
 export default DataContext

@@ -58,7 +58,7 @@ export default function EditLook({ type }: EditLookProps) {
         }
 
         // upload new look to database
-        saveArticle(newLook, 'looks')
+        saveArticle(newLook)
             // if success, open success modal and return to looks page
             .then(() => successMessage())
             // otherwise log error
@@ -71,7 +71,7 @@ export default function EditLook({ type }: EditLookProps) {
         const draft = { ...look, draft: true }
 
         // upload draft to database
-        saveArticle(draft, 'looks')
+        saveArticle(draft)
             // if success, open success modal and return to looks page
             .then(() => successMessage())
             // otherwise log error
