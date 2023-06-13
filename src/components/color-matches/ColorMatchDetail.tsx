@@ -2,6 +2,7 @@ import { useContext, useEffect } from 'react'
 import DataContext from '../../contexts/DataContext'
 import { useNavigate, useParams } from 'react-router-dom'
 import styles from './colorMatch.module.css'
+import { titleCase } from '../../util/functions'
 
 export default function ColorMatchDetail() {
     const { colorMatches, toggleColorMatchRead, toggleColorMatchComplete } = useContext(DataContext) as Firestore
@@ -35,56 +36,94 @@ export default function ColorMatchDetail() {
             <div className="wrapper">
 
                 {colorMatch ? (
-                    <>
-                        <h3>Sent by: {colorMatch.firstName} {colorMatch.lastName}</h3>
+                    <section className={styles.section}>
 
-                        <h4>Status: {colorMatch.completed ? 'Fulfilled' : 'Incomplete'}</h4>
+                        <h3>
+                            <span>Sent by:</span> {colorMatch.firstName} {colorMatch.lastName}
+                        </h3>
 
-                        <button className={styles.btn} onClick={markAsUnread}>Mark as unread</button>
+                        <h4>
+                            <span>Status:</span> {colorMatch.completed ? 'Fulfilled' : 'Incomplete'}
+                        </h4>
 
-                        <button className={styles.btn} onClick={markAsComplete}>Mark as complete</button>
+                        <div className={styles.btnDiv}>
+
+                            <button className={styles.btn} onClick={markAsUnread}>Mark as unread</button>
+
+                            <button className={styles.btn} onClick={markAsComplete}>Mark as complete</button>
+
+                        </div>
                         
-                        <h5><span>Sent on: </span>{new Date(colorMatch.sentAt.seconds * 1000).toDateString()}</h5>
+                        <p>
+                            <em>
+                                <span>Sent on: </span>{new Date(colorMatch.sentAt.seconds * 1000).toDateString()}
+                            </em>
+                        </p>
 
-                        <div>
+                        <div className={styles.info}>
 
                             <p>
-                                Email: {colorMatch.email}
+                                <span>Email:</span>
+                                <br />
+                                {colorMatch.email}
                             </p>
 
                             <p>
-                                Referral: {colorMatch.referral ? colorMatch.referral : 'No Referral'}
+                                <span>Referral:</span>
+                                <br />
+                                {colorMatch.referral ? colorMatch.referral : 'No Referral'}
                             </p>
 
                             <p>
-                                Vein Color: {colorMatch.veinColor === 'both' ? 'A perfect combiination of green and blue' : colorMatch.veinColor}
+                                <span>Vein Color:</span>
+                                <br />
+                                {colorMatch.veinColor === 'both' ? 'A perfect combiination of green and blue' : titleCase(colorMatch.veinColor)}
                             </p>
 
                             <p>
-                                Desired coverage: {colorMatch.coverage}
+                                <span>Desired coverage:</span>
+                                <br />
+                                {colorMatch.coverage}
                             </p>
 
                             <p>
-                                Selfie:
+                                <span className={styles.selfie_span}>Selfie:</span>
                             </p>
 
-                            {colorMatch.selfie ? <img src={colorMatch.selfie} alt='' /> : <h4>No Selfie Provided</h4>}
+                            {
+                                colorMatch.selfie ? 
+                                
+                                <img src={colorMatch.selfie} alt='' className={styles.selfie} /> 
+                                
+                                : 
+                                
+                                <h4>No Selfie Provided</h4>}
 
                             {
                                 colorMatch.customCart ?
 
-                                <div>
+                                <div className={styles.cart}>
+
                                     <p>
                                         {colorMatch.firstName} would like you to make them a Seint profile and personalized cart!
                                     </p>
+
                                     <p>
-                                        Their address is {colorMatch.address}
+                                        <span>Their address is:</span>
+                                        <br />
+                                        {colorMatch.address}
                                     </p>
+
                                     <p>
-                                        Their phone number is {colorMatch.phone}
+                                        <span>Their phone number is:</span>
+                                        <br />
+                                        {colorMatch.phone}
                                     </p>
+
                                 </div>
+                                
                                 :
+                                
                                 <p>
                                     {colorMatch.firstName} doesn&apos;t need a Seint profile created.
                                 </p>
@@ -92,8 +131,10 @@ export default function ColorMatchDetail() {
 
                         </div>
 
-                    </>
+                    </section>
+
                     ) :
+
                     <h3>Not Found</h3>
                 }
 
