@@ -161,7 +161,7 @@ export default function Content({ value, handleChange }: ContentProps) {
     }
 
     return (
-        <div style={{ position: 'relative' }}>
+        <div className={styles.content_container}>
             
             <textarea
                 name="content"

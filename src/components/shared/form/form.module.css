@@ -125,6 +125,14 @@
     transition: stroke-dashoffset 0.5s ease-in-out;
 }
 
+.content_container {
+    position: relative;
+}
+
+.content_container > div:not(.content) {
+    inset: 0;
+}
+
 .content {
     display: flex;
     justify-content: space-evenly;
