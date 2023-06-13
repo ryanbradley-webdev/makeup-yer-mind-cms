@@ -8,6 +8,7 @@ import { getAllLooks } from "../lib/getAllLooks";
 import { getAllMessages } from "../lib/getAllMessages";
 import { getAllColorMatches } from "../lib/getAllColorMatches";
 import { dataIsBlog, dataIsLook } from "../lib/typeCheck";
+import { getAllPromos } from "../lib/getAllPromos";
 
 const DataContext = createContext<Firestore | null>(null)
 
@@ -16,6 +17,7 @@ export function DataProvider({ children }: any) {
     const [looks, setLooks] = useState<Look[]>([])
     const [messages, setMessages] = useState<Message[]>([])
     const [colorMatches, setColorMatches] = useState<ColorMatch[]>([])
+    const [promos, setPromos] = useState<Promo[]>([])
     const [allColors, setAllColors] = useState<Color[]>([])
 
     async function loadBlogs() {
@@ -40,6 +42,12 @@ export function DataProvider({ children }: any) {
         const colorMatches = await getAllColorMatches()
 
         setColorMatches(colorMatches)
+    }
+
+    async function loadPromos() {
+        const promos = await getAllPromos()
+
+        setPromos(promos)
     }
 
     async function loadColors() {
@@ -148,6 +156,7 @@ export function DataProvider({ children }: any) {
         loadLooks()
         loadMessages()
         loadColorMatches()
+        loadPromos()
         loadColors()
     }, [])
 
@@ -156,6 +165,7 @@ export function DataProvider({ children }: any) {
         looks,
         messages,
         colorMatches,
+        promos,
         allColors,
         saveArticle,
         deleteArticle,

@@ -78,6 +78,9 @@ type Promo = {
     image: string,
     link: string,
     active: boolean,
+    createdAt: FieldValue,
+    updatedAt?: FieldValue,
+    expiresAt: FieldValue | null,
     docType: 'promotion'
 }
 
@@ -96,6 +99,7 @@ type Firestore = {
     looks: Look[],
     messages: Message[],
     colorMatches: ColorMatch[],
+    promos: Promo[],
     allColors: Color[],
     saveArticle: (newArticle: Blog | Look) => Promise<void>,
     deleteArticle: (id: string, type: string) => Promise<void>,

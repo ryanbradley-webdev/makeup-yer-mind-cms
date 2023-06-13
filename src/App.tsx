@@ -11,7 +11,7 @@ import Home from './components/home/Home'
 import NotFound from './components/NotFound'
 import ColorMatches from './components/color-matches/ColorMatches'
 import Promos from './components/promotions/Promos'
-import PromosDetail from './components/promotions/PromosDetail'
+import EditPromo from './components/promotions/EditPromo'
 import ColorMatchDetail from './components/color-matches/ColorMatchDetail'
 import './App.css'
 
@@ -38,7 +38,8 @@ export default function App() {
           </Route>
           <Route path='promotions'>
             <Route index element={<Promos />} />
-            <Route path=':id' element={<PromosDetail />} />
+            <Route path='new' element={<EditPromo />} />
+            <Route path=':id' element={<EditPromo />} />
           </Route>
           <Route path='messages'>
             <Route index element={<Messages />} />

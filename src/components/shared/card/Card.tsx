@@ -10,10 +10,11 @@ import Modal from "../Modal"
 import FormBtn from "../form/FormBtn"
 import DataContext from "../../../contexts/DataContext"
 import { titleCase } from "../../../util/functions"
+import { dataIsPromo } from "../../../lib/typeCheck"
 
 type CardProps = {
     type: string,
-    content: Blog | Look,
+    content: Blog | Look | Promo,
     id: string,
     image: string,
     image2?: string
@@ -27,7 +28,7 @@ export default function Card({ type, content, id, image, image2 }: CardProps) {
     const navigate = useNavigate()
 
     const date = () => {
-        if (content.draft) return null
+        if (!dataIsPromo(content) && content.draft) return null
         const timestamp = content.updatedAt ? content.updatedAt.seconds : content.createdAt.seconds
         const date = new Date(timestamp * 1000).toLocaleDateString()
         return (
@@ -121,39 +122,47 @@ export default function Card({ type, content, id, image, image2 }: CardProps) {
 
                     <h3 className={styles.title}>{content.title}</h3>
                     {
-                        content.draft
+                        (!dataIsPromo(content) && content.draft)
+
                         ?
+
                         <span className={styles.draft}>Draft</span>
+
                         :
+
                         <>
-                        {!content.draft && date()}
-                        <div className={styles.details}>
+                            {date()}
 
-                            <span>
-                                <EyeIcon /> 
-                                Views: 
-                                <span style={localStyles.span}>
-                                    {content.views}
-                                </span>
-                            </span>
+                            { !dataIsPromo(content) &&
 
-                            <span>
-                                <HeartIcon /> 
-                                Likes: 
-                                <span style={localStyles.span}>
-                                    {content.likes}
-                                </span>
-                            </span>
+                                <div className={styles.details}>
 
-                            <span>
-                                <CommentIcon /> 
-                                Comments: 
-                                <span style={localStyles.span}>
-                                    {content.comments}
-                                </span>
-                            </span>
+                                    <span>
+                                        <EyeIcon /> 
+                                        Views: 
+                                        <span style={localStyles.span}>
+                                            {content.views}
+                                        </span>
+                                    </span>
 
-                        </div>
+                                    <span>
+                                        <HeartIcon /> 
+                                        Likes: 
+                                        <span style={localStyles.span}>
+                                            {content.likes}
+                                        </span>
+                                    </span>
+
+                                    <span>
+                                        <CommentIcon /> 
+                                        Comments: 
+                                        <span style={localStyles.span}>
+                                            {content.comments}
+                                        </span>
+                                    </span>
+
+                                </div>
+                            }
                         </>
                     }
                 </div>

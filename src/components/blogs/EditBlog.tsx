@@ -16,11 +16,6 @@ type EditBlogProps = {
     type: string
 }
 
-type Action = {
-    type: string,
-    payload?: string
-}
-
 export default function EditBlog({ type }: EditBlogProps) {
     const { blogs, saveArticle } = useContext(DataContext) as Firestore
 
