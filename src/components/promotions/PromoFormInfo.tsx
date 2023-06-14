@@ -3,14 +3,17 @@ import ImgUploader from '../shared/form/ImgUploader'
 import slugify from 'slugify'
 import DataContext from '../../contexts/DataContext'
 import { Timestamp } from 'firebase/firestore'
+import styles from './promotions.module.css'
 
 export default function PromoFormInfo({
     dispatch,
+    isActive,
     image,
     link,
     expiresAt
 }: {
     dispatch: Dispatch<any>,
+    isActive: boolean,
     image: string,
     link: string,
     expiresAt?: Timestamp
@@ -21,6 +24,18 @@ export default function PromoFormInfo({
     const [hasExpiration, setHasExpiration] = useState(false)
 
     const linkRef = useRef<HTMLInputElement>(null)
+
+    function generateStatus() {
+        if (isActive) {
+            return <span className={styles.green}>Active</span>
+        } else {
+            return <span className={styles.red}>Inactive</span>
+        }
+    }
+
+    function toggleStatus() {
+        dispatch({ type: 'change-status', payload: !isActive })
+    }
 
     function handleExpirationChange(e: React.ChangeEvent<HTMLSelectElement>) {
         setHasExpiration(e.target.value === 'yes')
@@ -69,6 +84,16 @@ export default function PromoFormInfo({
 
     return (
         <>
+            <div className={styles.status_div}>
+
+                <span>Status: {generateStatus()}</span>
+
+                <button onClick={toggleStatus} type='button'>
+                    {isActive ? 'Deactivate Promotion' : 'Reactivate Promotion'}
+                </button>
+
+            </div>
+
             <label htmlFor="expiration">Do you want to set an expiration date?</label>
 
             <select

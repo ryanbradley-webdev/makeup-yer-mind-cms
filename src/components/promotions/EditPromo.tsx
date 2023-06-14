@@ -91,6 +91,7 @@ export default function EditPromo({ type }: EditPromoProps) {
 
                     <PromoFormInfo
                         dispatch={dispatch}
+                        isActive={promoState.active}
                         image={promoState.image}
                         link={promoState.link}
                         expiresAt={promoState.expiresAt}

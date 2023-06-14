@@ -29,6 +29,9 @@ export function reducer(state: Promo, action: Action) {
         case 'change-expiration':
             return { ...state, expiresAt: action.payload } as Promo
 
+        case 'change-status':
+            return { ...state, active: !state.active } as Promo
+
         default:
             return state
     }
