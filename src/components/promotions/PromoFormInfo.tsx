@@ -1,22 +1,42 @@
-import { Dispatch, useRef, useState, useContext } from 'react'
+import { Dispatch, useRef, useState, useContext, useEffect } from 'react'
 import ImgUploader from '../shared/form/ImgUploader'
 import slugify from 'slugify'
 import DataContext from '../../contexts/DataContext'
+import { Timestamp } from 'firebase/firestore'
 
 export default function PromoFormInfo({
     dispatch,
     image,
-    link
+    link,
+    expiresAt
 }: {
     dispatch: Dispatch<any>,
     image: string,
-    link: string
+    link: string,
+    expiresAt?: Timestamp
 }) {
     const { uploadImg } = useContext(DataContext) as Firestore
 
     const [imgLoading, setImgLoading] = useState(false)
+    const [hasExpiration, setHasExpiration] = useState(false)
 
     const linkRef = useRef<HTMLInputElement>(null)
+
+    function handleExpirationChange(e: React.ChangeEvent<HTMLSelectElement>) {
+        setHasExpiration(e.target.value === 'yes')
+    }
+
+    function handleExpirationDateChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const timestamp = Timestamp.fromDate(new Date(e.target.value))
+
+        dispatch({ type: 'change-expiration', payload: timestamp })
+    }
+
+    function convertTimestamp(timestamp: Timestamp | undefined) {
+        const date = timestamp ? timestamp.toDate() : new Date()
+        date.setMinutes(date.getMinutes() - date.getTimezoneOffset())
+        return date.toISOString().slice(0,16)
+    }
 
     function handleUpload(file: File | null) {
         if (!file) return
@@ -35,8 +55,49 @@ export default function PromoFormInfo({
             })
     }
 
+    useEffect(() => {
+        if (!hasExpiration) {
+            dispatch({ type: 'change-expiration', payload: null })
+        }
+    }, [hasExpiration])
+
+    useEffect(() => {
+        if (expiresAt) {
+            setHasExpiration(true)
+        }
+    }, [])
+
     return (
         <>
+            <label htmlFor="expiration">Do you want to set an expiration date?</label>
+
+            <select
+                name="expiration"
+                id="expiration"
+                value={hasExpiration ? 'yes' : 'no'}
+                onChange={handleExpirationChange}
+            >
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+            </select>
+
+            {
+                hasExpiration &&
+
+                <>
+                    <label htmlFor="expirationDate">Expiration Date:</label>
+
+                    <input
+                        type='datetime-local'
+                        name='expirationDate'
+                        id='expirationDate'
+                        value={convertTimestamp(expiresAt)}
+                        onChange={handleExpirationDateChange}
+                        required
+                    />
+                </>
+            }
+
             <label htmlFor="link">Link</label>
 
             <div>

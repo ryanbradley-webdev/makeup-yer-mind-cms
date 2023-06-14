@@ -93,6 +93,7 @@ export default function EditPromo({ type }: EditPromoProps) {
                         dispatch={dispatch}
                         image={promoState.image}
                         link={promoState.link}
+                        expiresAt={promoState.expiresAt}
                     />
 
                 </Form>
