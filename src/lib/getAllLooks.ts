@@ -1,11 +1,13 @@
 import { db } from "./firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { dataIsLook } from "./typeCheck";
 
 export async function getAllLooks() {
     const looksRef = collection(db, 'looks')
 
-    const looksSnap = await getDocs(looksRef)
+    const q = query(looksRef, orderBy('createdAt', 'desc'))
+
+    const looksSnap = await getDocs(q)
 
     const publishedLooks: Look[] = []
     const draftLooks: Look[] = []

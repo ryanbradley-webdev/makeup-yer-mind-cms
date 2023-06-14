@@ -1,17 +1,21 @@
 import { db } from "./firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { dataIsBlog } from "./typeCheck";
 
 export async function getAllBlogs() {
     const blogsRef = collection(db, 'blogs')
 
-    const blogsSnap = await getDocs(blogsRef)
+    const q = query(blogsRef, orderBy('createdAt', 'desc'))
+
+    const blogsSnap = await getDocs(q)
 
     const publishedBlogs: Blog[] = []
     const draftBlogs: Blog[] = []
 
     blogsSnap.forEach(doc => {
         const docData = doc.data()
+
+        console.log(docData.title)
 
         if (dataIsBlog(docData)) {
             if (docData.draft) {
@@ -21,8 +25,6 @@ export async function getAllBlogs() {
             }
         }
     })
-
-    publishedBlogs.sort((a: Blog, b: Blog) => b.createdAt.seconds - a.createdAt.seconds)
 
     return draftBlogs.concat(publishedBlogs)
 }

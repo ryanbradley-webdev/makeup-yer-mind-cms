@@ -7,7 +7,7 @@ import { getAllBlogs } from "../lib/getAllBlogs";
 import { getAllLooks } from "../lib/getAllLooks";
 import { getAllMessages } from "../lib/getAllMessages";
 import { getAllColorMatches } from "../lib/getAllColorMatches";
-import { dataIsBlog, dataIsLook } from "../lib/typeCheck";
+import { dataIsBlog, dataIsLook, dataIsPromo } from "../lib/typeCheck";
 import { getAllPromos } from "../lib/getAllPromos";
 
 const DataContext = createContext<Firestore | null>(null)
@@ -56,13 +56,14 @@ export function DataProvider({ children }: any) {
         setAllColors(colors)
     }
 
-    async function saveArticle(newArticle: Blog | Look) {
+    async function saveArticle(newArticle: Blog | Look | Promo) {
         // initialize null variable to store firestore reference
         let articleRef = null
 
         let type =
             dataIsBlog(newArticle) && 'blogs' ||
-            dataIsLook(newArticle) && 'looks'
+            dataIsLook(newArticle) && 'looks' ||
+            dataIsPromo(newArticle) && 'promotions'
 
         if (!type) return
         
@@ -86,6 +87,7 @@ export function DataProvider({ children }: any) {
             .then(() => {
                 if (type === 'blogs') loadBlogs()
                 if (type === 'looks') loadLooks()
+                if (type === 'promotions') loadPromos()
             })
             // if failure return the error
             .catch(err => err.message)

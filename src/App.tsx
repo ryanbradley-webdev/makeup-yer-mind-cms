@@ -38,8 +38,8 @@ export default function App() {
           </Route>
           <Route path='promotions'>
             <Route index element={<Promos />} />
-            <Route path='new' element={<EditPromo />} />
-            <Route path=':id' element={<EditPromo />} />
+            <Route path='new' element={<EditPromo type='new' />} />
+            <Route path=':id' element={<EditPromo type='edit' />} />
           </Route>
           <Route path='messages'>
             <Route index element={<Messages />} />

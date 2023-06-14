@@ -15,20 +15,18 @@ export async function getAllPromos() {
     promosSnap.forEach(snap => {
         const docData = snap.data()
 
+        console.log(docData.title)
+
         if (dataIsPromo(docData)) {
-            console.log('data is promo')
 
             if (docData.active) {
-                console.log('data is active')
 
                 if (docData.expiresAt) {
-                    console.log('data has expiration')
 
                     const currentDate = new Date()
                     const expirationDate = new Date(docData.expiresAt.seconds * 1000)
 
                     if (currentDate > expirationDate) {
-                        console.log('data is expired')
 
                         const docRef = doc(promosRef, snap.id)
                         updateDoc(docRef, { active: false })
@@ -53,5 +51,5 @@ export async function getAllPromos() {
         }
     })
 
-    return activePromos.concat(inactivePromos)
+    return [ ...activePromos, ...inactivePromos ]
 }

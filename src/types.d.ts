@@ -101,7 +101,7 @@ type Firestore = {
     colorMatches: ColorMatch[],
     promos: Promo[],
     allColors: Color[],
-    saveArticle: (newArticle: Blog | Look) => Promise<void>,
+    saveArticle: (newArticle: Blog | Look | Promo) => Promise<void>,
     deleteArticle: (id: string, type: string) => Promise<void>,
     uploadImg: (imagePath: string, imageName: string, file: File) => Promise<unknown>,
     toggleMessageRead: (id: string, status: boolean) => Promise<string>,

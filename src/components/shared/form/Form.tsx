@@ -12,10 +12,10 @@ type FormProps = {
     handleSubmit: (e: FormEvent<HTMLFormElement>) => void,
     title: string,
     description: string,
-    content: string,
+    content?: string,
     dispatch: Dispatch<Action>
     preview: () => void,
-    saveDraft: () => void,
+    saveDraft?: () => void,
     children: React.ReactNode
 }
 
@@ -77,9 +77,13 @@ export default function Form({ handleSubmit, openDeleteModal, title, description
 
             {children}
 
-            <label htmlFor="content">Content</label>
-
-            <Content value={content} handleChange={handleContentChange} />
+            {content && 
+                <>
+                    <label htmlFor="content">Content</label>
+                    <Content value={content} handleChange={handleContentChange} />
+                </>
+            }
+                
 
             <div className={styles.button_div}>
 
@@ -95,10 +99,10 @@ export default function Form({ handleSubmit, openDeleteModal, title, description
                         Cancel
                     </FormBtn>
 
-                    <FormBtn onClick={saveDraft}>
+                    {saveDraft && <FormBtn onClick={saveDraft}>
                         <SaveIcon />
                         Draft
-                    </FormBtn>
+                    </FormBtn>}
 
                     <FormBtn variant='blue' submit>
                         <UploadIcon />
