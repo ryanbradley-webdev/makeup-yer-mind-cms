@@ -19,8 +19,8 @@ import './App.css'
 export default function App() {
   return (
     <>
-      <Header />
       <AuthProvider>
+        <Header />
         <DataProvider>
           <Routes>
             <Route path='/' element={<Home />} />

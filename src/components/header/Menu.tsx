@@ -1,3 +1,5 @@
+import { useContext } from 'react'
+import AuthContext from "../../contexts/AuthContext";
 import ListItem from "./ListItem";
 import styles from './header.module.css'
 
@@ -7,6 +9,8 @@ type MenuProps = {
 }
 
 export default function Menu({ menuVisible, toggleMenu }: MenuProps) {
+    const { user, userSignOut } = useContext(AuthContext)
+
     return (
         <div className={menuVisible ? styles.menu_visible : styles.menu}>
             
@@ -85,6 +89,20 @@ export default function Menu({ menuVisible, toggleMenu }: MenuProps) {
                 </ListItem>
                 
             </ul>
+
+            <div>
+
+                {
+                    user ?
+
+                    <button onClick={userSignOut}>Sign Out</button>
+
+                    :
+
+                    <button>Sign In</button>
+                }
+
+            </div>
             
         </div>
     )

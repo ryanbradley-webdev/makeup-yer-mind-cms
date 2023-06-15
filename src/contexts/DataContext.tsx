@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { useContext, createContext, useEffect, useState } from "react";
 import { db, storage } from '../lib/firebase'
 import { collection, doc, setDoc, deleteDoc, updateDoc } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
@@ -9,10 +9,13 @@ import { getAllMessages } from "../lib/getAllMessages";
 import { getAllColorMatches } from "../lib/getAllColorMatches";
 import { dataIsBlog, dataIsLook, dataIsPromo } from "../lib/typeCheck";
 import { getAllPromos } from "../lib/getAllPromos";
+import AuthContext from "./AuthContext";
 
 const DataContext = createContext<Firestore | null>(null)
 
 export function DataProvider({ children }: any) {
+    const { user } = useContext(AuthContext)
+
     const [blogs, setBlogs] = useState<Blog[]>([])
     const [looks, setLooks] = useState<Look[]>([])
     const [messages, setMessages] = useState<Message[]>([])
@@ -154,12 +157,14 @@ export function DataProvider({ children }: any) {
 
     // on initial load, retrieve all necessary data from firestore
     useEffect(() => {
-        loadBlogs()
-        loadLooks()
-        loadMessages()
-        loadColorMatches()
-        loadPromos()
-        loadColors()
+        if (user) {
+            loadBlogs()
+            loadLooks()
+            loadMessages()
+            loadColorMatches()
+            loadPromos()
+            loadColors()
+        }
     }, [])
 
     const value: Firestore = {

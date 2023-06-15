@@ -1,10 +1,14 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import Burger from './Burger'
 import styles from './header.module.css'
 import Menu from './Menu'
 import { getWindowWidth } from '../../util/functions'
+import AuthContext from '../../contexts/AuthContext'
+import { User } from 'firebase/auth'
 
 export default function Header() {
+    const { user } = useContext(AuthContext)
+
     const [menuVisible, setMenuVisible] = useState(false)
 
     function toggleMenu() {
@@ -25,7 +29,7 @@ export default function Header() {
                     />
 
                     <p style={{ fontFamily: 'Marck Script', fontSize: '1.5rem', color: 'var(--color-gold-primary)' }}>
-                        Welcome, <br />Courtney!
+                        Welcome, <br />{user ? user.displayName.slice(0, user.displayName.indexOf(' ')) : 'Guest'}!
                     </p>
 
                 </div>

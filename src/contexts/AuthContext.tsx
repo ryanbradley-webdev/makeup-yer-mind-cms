@@ -1,6 +1,6 @@
-import { ReactNode, createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { auth, googleProvider } from "../lib/firebase";
-import { User, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { User, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 
 const AuthContext = createContext<any>(null)
 
@@ -8,25 +8,24 @@ export function AuthProvider({ children }: any) {
     const [user, setUser] = useState<User | null>(null)
 
     async function signInWithEmail(email: string, password: string) {
-        const credential = await signInWithEmailAndPassword(auth, email, password)
-
-        if (credential) {
-            const { user } = credential
-            setUser(user)
-        }
+        signInWithEmailAndPassword(auth, email, password)
     }
 
     async function signInWithGoogle() {
-        const res = await signInWithPopup(auth, googleProvider)
-
-        if (res.user) {
-            setUser(res.user)
-        }
+        signInWithPopup(auth, googleProvider)
     }
 
     async function userSignOut() {
-        signOut(auth).then(() => setUser(null))
+        signOut(auth)
     }
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, user => {
+            setUser(user)
+        })
+
+        return () => unsubscribe()
+    }, [])
 
     const value = {
         user,
