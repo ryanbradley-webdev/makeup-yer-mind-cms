@@ -5,6 +5,7 @@ import styles from './promotions.module.css'
 import Card from '../shared/card/Card'
 import { useNavigate } from 'react-router-dom'
 import NewBtn from '../shared/NewBtn'
+import NoContent from '../shared/NoContent'
 
 export default function Videos() {
     const { promos } = useContext(DataContext) as Firestore
@@ -29,15 +30,22 @@ export default function Videos() {
                 </PageHeader>
 
                 <section className={styles.card_grid}>
-                    {promos && promos.map((promo: Promo) => (
-                        <Card 
-                            image={promo.image}
-                            content={promo}
-                            key={promo.id}
-                            id={promo.id}
-                            type='promo'
-                        />
-                    ))}
+                    {promos?.length > 0 ?
+                    
+                        promos.map((promo: Promo) => (
+                            <Card 
+                                image={promo.image}
+                                content={promo}
+                                key={promo.id}
+                                id={promo.id}
+                                type='promo'
+                            />
+                        ))
+
+                        :
+
+                        <NoContent />
+                    }
                 </section>
 
             </div>

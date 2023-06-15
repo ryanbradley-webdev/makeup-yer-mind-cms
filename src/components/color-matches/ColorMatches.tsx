@@ -4,6 +4,7 @@ import PageHeader from '../shared/PageHeader'
 import styles from './colorMatch.module.css'
 import { useNavigate } from 'react-router-dom'
 import MessageIcon from '../../assets/MessageIcon'
+import NoContent from '../shared/NoContent'
 
 export default function ColorMatches() {
   const { colorMatches } = useContext(DataContext) as Firestore
@@ -23,15 +24,22 @@ export default function ColorMatches() {
 
         </PageHeader>
 
-        {colorMatches && colorMatches.map((colorMatch: ColorMatch) => (
-          <div className={styles.card} onClick={() => navigate(`${colorMatch.id}`)} key={colorMatch.id}>
-            <MessageIcon read={colorMatch.read} />
-            <div className={styles.message}>
-                <h5>{`${colorMatch.firstName} ${colorMatch.lastName}`}</h5>
-                <p>{colorMatch.coverage}</p>
+        {colorMatches?.length > 0 ? 
+
+          colorMatches.map((colorMatch: ColorMatch) => (
+            <div className={styles.card} onClick={() => navigate(`${colorMatch.id}`)} key={colorMatch.id}>
+              <MessageIcon read={colorMatch.read} />
+              <div className={styles.message}>
+                  <h5>{`${colorMatch.firstName} ${colorMatch.lastName}`}</h5>
+                  <p>{colorMatch.coverage}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+
+          :
+
+          <NoContent />
+        }
 
       </div>
 

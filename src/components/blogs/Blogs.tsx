@@ -5,6 +5,7 @@ import Card from '../shared/card/Card'
 import NewBtn from '../shared/NewBtn'
 import styles from './blogs.module.css'
 import PageHeader from '../shared/PageHeader'
+import NoContent from '../shared/NoContent'
 
 export default function Blogs() {
     const { blogs } = useContext(DataContext) as Firestore
@@ -27,15 +28,23 @@ export default function Blogs() {
                 </PageHeader>
                 
                 <section className={styles.card_grid}>
-                    {blogs && blogs.map((blog: Blog) => (
-                        <Card 
-                            image={blog.image}
-                            content={blog} 
-                            key={blog.id}
-                            id={blog.id}
-                            type='blog'
-                        />
-                    ))}
+                    {
+                        blogs?.length > 0 ? 
+                        
+                        blogs.map((blog: Blog) => (
+                            <Card 
+                                image={blog.image}
+                                content={blog} 
+                                key={blog.id}
+                                id={blog.id}
+                                type='blog'
+                            />
+                        ))
+
+                        :
+
+                        <NoContent />
+                    }
                 </section>
                 
             </div>

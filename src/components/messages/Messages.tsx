@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import DataContext from '../../contexts/DataContext'
 import MessageCard from './MessageCard'
+import NoContent from '../shared/NoContent'
 
 export default function Messages() {
     const { messages } = useContext(DataContext) as Firestore
@@ -12,9 +13,16 @@ export default function Messages() {
                 
                 <h1 style={{ marginBottom: '2rem' }}>Messages</h1>
                 
-                {messages && messages.map((message: Message) => (
-                    <MessageCard message={message} key={message.id} />
-                ))}
+                {messages?.length > 0 ?
+
+                    messages.map((message: Message) => (
+                        <MessageCard message={message} key={message.id} />
+                    ))
+
+                    :
+
+                    <NoContent />
+                }
                 
             </div>
             

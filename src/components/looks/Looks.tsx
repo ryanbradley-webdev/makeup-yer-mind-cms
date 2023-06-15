@@ -5,6 +5,7 @@ import Card from '../shared/card/Card'
 import NewBtn from '../shared/NewBtn'
 import styles from './looks.module.css'
 import PageHeader from '../shared/PageHeader'
+import NoContent from '../shared/NoContent'
 
 export default function Looks() {
     const { looks } = useContext(DataContext) as Firestore
@@ -28,16 +29,23 @@ export default function Looks() {
                 
                 <section className={styles.card_grid}>
                     
-                    {looks && looks.map((look: Look) => (
-                        <Card
-                            content={look} 
-                            key={look.id}
-                            id={look.id}
-                            image={look['image1']}
-                            image2={look['image2']}
-                            type='look'
-                        />
-                    ))}
+                    {looks?.length > 0 ? 
+                    
+                        looks.map((look: Look) => (
+                            <Card
+                                content={look} 
+                                key={look.id}
+                                id={look.id}
+                                image={look['image1']}
+                                image2={look['image2']}
+                                type='look'
+                            />
+                        ))
+
+                        :
+
+                        <NoContent />
+                    }
                     
                 </section>
                 
