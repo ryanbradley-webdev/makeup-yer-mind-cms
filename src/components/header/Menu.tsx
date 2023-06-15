@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import AuthContext from "../../contexts/AuthContext";
 import ListItem from "./ListItem";
 import styles from './header.module.css'
+import { useNavigate } from 'react-router-dom';
 
 type MenuProps = {
     menuVisible: boolean,
@@ -10,6 +11,8 @@ type MenuProps = {
 
 export default function Menu({ menuVisible, toggleMenu }: MenuProps) {
     const { user, userSignOut } = useContext(AuthContext)
+
+    const navigate = useNavigate()
 
     return (
         <div className={menuVisible ? styles.menu_visible : styles.menu}>
@@ -99,7 +102,7 @@ export default function Menu({ menuVisible, toggleMenu }: MenuProps) {
 
                     :
 
-                    <button>Sign In</button>
+                    <button onClick={() => navigate('/')}>Sign In</button>
                 }
 
             </div>

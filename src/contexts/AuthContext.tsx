@@ -8,11 +8,19 @@ export function AuthProvider({ children }: any) {
     const [user, setUser] = useState<User | null>(null)
 
     async function signInWithEmail(email: string, password: string) {
-        signInWithEmailAndPassword(auth, email, password)
+        return await signInWithEmailAndPassword(auth, email, password)
+                .then(res => res.user)
+                .catch(err => {
+                    if (err.message) return err.message
+                })
     }
 
     async function signInWithGoogle() {
-        signInWithPopup(auth, googleProvider)
+        try {
+            signInWithPopup(auth, googleProvider)
+        } catch {
+            return 'failed to login'
+        }
     }
 
     async function userSignOut() {

@@ -1,14 +1,16 @@
-import { useRef, useContext } from 'react'
+import { useRef, useContext, useState } from 'react'
 import AuthContext from '../../contexts/AuthContext'
 import styles from './home.module.css'
 
 export default function Login() {
     const { signInWithEmail, signInWithGoogle } = useContext(AuthContext)
 
+    const [error, setError] = useState('')
+
     const emailRef = useRef<HTMLInputElement>(null)
     const passwordRef = useRef<HTMLInputElement>(null)
     
-    function handleLogin(e: React.FormEvent) {
+    async function handleLogin(e: React.FormEvent) {
         e.preventDefault()
 
         const email = emailRef?.current?.value
@@ -16,7 +18,20 @@ export default function Login() {
 
         if (!email || !password) return
 
-        signInWithEmail(email, password)
+        try {
+            const res = await signInWithEmail(email, password)
+
+            if (!res) {
+                setError('Failed to Login')
+            }
+
+            if (typeof res === 'string') {
+                console.log(res)
+                if (res.includes('wrong-password')) setError('Please check your password')
+            }
+        } catch {
+            setError('Something went wrong')
+        }
     }
 
     function handleGoogleLogin() {
@@ -43,6 +58,8 @@ export default function Login() {
                     <label htmlFor="password">Password:</label>
 
                     <input type="password" name="password" id="password" ref={passwordRef} required />
+                    
+                    {error && <span>{error}</span>}
 
                     <button>Sign In</button>
 

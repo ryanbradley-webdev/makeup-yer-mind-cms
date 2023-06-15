@@ -60,6 +60,10 @@
     display: grid;
 }
 
+.login form span {
+    text-align: center;
+}
+
 @media screen and (min-width: 769px) {
     .login form {
         grid-template-columns: 125px 1fr;
@@ -68,7 +72,8 @@
         width: 500px;
     }
 
-    .login form button {
+    .login form button,
+    .login form span {
         grid-column: 1 / span 2;
     }
 }
