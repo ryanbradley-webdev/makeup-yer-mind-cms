@@ -15,8 +15,6 @@ export async function getAllPromos() {
     promosSnap.forEach(snap => {
         const docData = snap.data()
 
-        console.log(docData.title)
-
         if (dataIsPromo(docData)) {
 
             if (docData.active) {
