@@ -1,0 +1,55 @@
+@import url(https://fonts.googleapis.com/css?family=Great+Vibes:regular);
+
+.share_container {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    margin-left: -8px;
+}
+
+.share_container svg {
+    display: flex;
+    height: 24px;
+    padding-inline: 8px;
+    height: 20px;
+    fill: #878787;
+}
+
+.social_stats {
+    display: flex;
+    gap: 24px;
+}
+
+.stat_div {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: #D9D9D9;
+}
+
+.stat_div svg {
+    height: 20px;
+}
+
+.content {
+    color: #878787;
+    font-style: italic;
+    font-size: 12px;
+    margin-block: 8px;
+}
+
+.paragraph {
+    margin-top: 16px;
+    margin-right: 42px;
+    text-align: right;
+    line-height: 2.2em;
+    font-size: 1rem;
+    font-size: italic;
+}
+
+.span {
+    font-family: 'Great Vibes';
+    font-size: 2em;
+    color: #EBC7AD;
+}

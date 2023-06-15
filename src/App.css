@@ -45,16 +45,40 @@ button {
 
 .preview-container {
   height: fit-content;
+  min-height: 100vh;
   position: absolute;
   background: #000000d5;
   inset: 0;
-  padding: 3rem;
+  padding: 3rem 8px;
+  font-family: 'Bodoni Moda';
+  z-index: 20;
+}
+
+.preview-container button {
+  position: absolute;
+  top: 48px;
+  left: 16px;
+  font-size: 48px;
+  color: white;
+  height: fit-content;
+  width: fit-content;
+  background: transparent;
+  border: none;
+  z-index: 24;
+}
+
+@media screen and (min-width: 1000px) {
+  .preview-container button {
+    left: calc(calc(100vw - 1024px) / 2);
+  }
 }
 
 .preview-content {
-  background-color: var(--color-dark-grey);
+  background-color: var(--color-background);
   border-radius: 8px;
-  padding: 1rem 3rem;
+  padding: 1rem 8px;
+  max-width: 1032px;
+  margin-inline: auto;
 }
 
 .modal-btn-div {
