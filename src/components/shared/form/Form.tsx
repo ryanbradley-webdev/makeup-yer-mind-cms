@@ -77,7 +77,7 @@ export default function Form({ handleSubmit, openDeleteModal, title, description
 
             {children}
 
-            {content && 
+            {content !== undefined && 
                 <>
                     <label htmlFor="content">Content</label>
                     <Content value={content} handleChange={handleContentChange} />
