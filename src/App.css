@@ -30,6 +30,7 @@ main {
 
 .wrapper {
   padding: 2rem;
+  min-height: 100%;
 }
 
 @media screen and (min-width: 1024px) {

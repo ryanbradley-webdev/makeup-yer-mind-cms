@@ -1,5 +1,6 @@
 import { useRef, useContext } from 'react'
 import AuthContext from '../../contexts/AuthContext'
+import styles from './home.module.css'
 
 export default function Login() {
     const { signInWithEmail, signInWithGoogle } = useContext(AuthContext)
@@ -23,31 +24,42 @@ export default function Login() {
     }
 
     return (
-        <div>
+        <div className={styles.login_container}>
 
-            <h3>
-                Please Sign In to Continue
-            </h3>
+            <div className={styles.login}>
 
-            <form action="" onSubmit={handleLogin}>
+                <h3>
+                    Please Sign In to Continue
+                </h3>
 
-                <label htmlFor="email">Email:</label>
+                <hr />
 
-                <input type="email" name='email' id='email' ref={emailRef} required />
+                <form action="" onSubmit={handleLogin}>
 
-                <label htmlFor="password">Password:</label>
+                    <label htmlFor="email">Email:</label>
 
-                <input type="password" name="password" id="password" ref={passwordRef} required />
+                    <input type="email" name='email' id='email' ref={emailRef} required />
 
-                <button>Sign In</button>
+                    <label htmlFor="password">Password:</label>
 
-            </form>
+                    <input type="password" name="password" id="password" ref={passwordRef} required />
 
-            <div>
+                    <button>Sign In</button>
 
-                <span>Or, sign in with Google</span>
+                </form>
 
-                <button onClick={handleGoogleLogin}>Sign In</button>
+                <hr />
+
+                <div className={styles.google}>
+
+                    <span>Or, sign in with Google</span>
+
+                    <button onClick={handleGoogleLogin}>
+                        <img src='/google.png' height={32} width={32} alt='' />
+                        Sign In
+                    </button>
+
+                </div>
 
             </div>
 
