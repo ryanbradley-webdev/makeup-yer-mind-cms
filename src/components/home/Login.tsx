@@ -5,7 +5,8 @@ import styles from './home.module.css'
 export default function Login() {
     const { signInWithEmail, signInWithGoogle } = useContext(AuthContext)
 
-    const [error, setError] = useState('')
+    const [emailError, setEmailError] = useState('')
+    const [googleError, setGoogleError] = useState('')
 
     const emailRef = useRef<HTMLInputElement>(null)
     const passwordRef = useRef<HTMLInputElement>(null)
@@ -22,20 +23,27 @@ export default function Login() {
             const res = await signInWithEmail(email, password)
 
             if (!res) {
-                setError('Failed to Login')
+                setEmailError('Failed to Login')
             }
 
             if (typeof res === 'string') {
-                console.log(res)
-                if (res.includes('wrong-password')) setError('Please check your password')
+                if (res.includes('wrong-password')) setEmailError('Please check your password')
             }
         } catch {
-            setError('Something went wrong')
+            setEmailError('Something went wrong')
         }
     }
 
-    function handleGoogleLogin() {
-        signInWithGoogle()
+    async function handleGoogleLogin() {
+        try {
+            const res = await signInWithGoogle()
+
+            if (!res || typeof res === 'string') {
+                setGoogleError('Failed to Login')
+            }
+        } catch {
+            setGoogleError('Something went wrong')
+        }
     }
 
     return (
@@ -59,7 +67,7 @@ export default function Login() {
 
                     <input type="password" name="password" id="password" ref={passwordRef} required />
                     
-                    {error && <span>{error}</span>}
+                    {emailError && <span>{emailError}</span>}
 
                     <button>Sign In</button>
 
@@ -70,6 +78,8 @@ export default function Login() {
                 <div className={styles.google}>
 
                     <span>Or, sign in with Google</span>
+
+                    {googleError && <span>{googleError}</span>}
 
                     <button onClick={handleGoogleLogin}>
                         <img src='/google.png' height={32} width={32} alt='' />

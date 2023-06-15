@@ -11,16 +11,24 @@ export function AuthProvider({ children }: any) {
         return await signInWithEmailAndPassword(auth, email, password)
                 .then(res => res.user)
                 .catch(err => {
-                    if (err.message) return err.message
+                    if (err.message) {
+                        return err.message
+                    } else {
+                        return 'Failed to login'
+                    }
                 })
     }
 
     async function signInWithGoogle() {
-        try {
-            signInWithPopup(auth, googleProvider)
-        } catch {
-            return 'failed to login'
-        }
+        return await signInWithPopup(auth, googleProvider)
+                .then(res => res.user)
+                .catch(err => {
+                    if (err.message) {
+                        return err.message
+                    } else {
+                        return 'Failed to login'
+                    }
+                })
     }
 
     async function userSignOut() {
