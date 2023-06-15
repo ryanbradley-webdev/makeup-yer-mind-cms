@@ -121,7 +121,7 @@
 .content h2,
 .content h3,
 .content h4 {
-    color: var(--color-gold-pri);
+    color: #EBC7AD;
 }
 
 .content > * {

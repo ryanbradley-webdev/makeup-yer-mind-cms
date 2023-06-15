@@ -78,6 +78,7 @@ button {
   border-radius: 8px;
   padding: 1rem 8px;
   max-width: 1032px;
+  min-height: calc(100vh - 6rem);
   margin-inline: auto;
 }
 
