@@ -90,7 +90,7 @@ export default function Menu({ menuVisible, toggleMenu }: MenuProps) {
                 
             </ul>
 
-            <div>
+            <div className={styles.auth}>
 
                 {
                     user ?

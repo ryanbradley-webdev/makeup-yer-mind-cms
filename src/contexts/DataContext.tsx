@@ -164,8 +164,14 @@ export function DataProvider({ children }: any) {
             loadColorMatches()
             loadPromos()
             loadColors()
+        } else {
+            setBlogs([])
+            setLooks([])
+            setMessages([])
+            setColorMatches([])
+            setPromos([])
         }
-    }, [])
+    }, [user])
 
     const value: Firestore = {
         blogs,
