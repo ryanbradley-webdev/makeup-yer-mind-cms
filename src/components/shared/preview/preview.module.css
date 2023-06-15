@@ -53,3 +53,33 @@
     font-size: 2em;
     color: #EBC7AD;
 }
+
+.color_btn {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-decoration: none;
+}
+
+.color_btn img {
+    height: 30px;
+    width: 100%;
+    max-width: 134px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.color_info {
+    margin-left: 8px;
+}
+
+.color_name {
+    font-size: 14px;
+    color: white;
+}
+
+.color_brand {
+    font-size: 12px;
+    font-style: italic;
+    color: #878787;
+}

@@ -34,3 +34,153 @@
     border: 1px solid #D9D9D9;
     border-radius: 4px;
 }
+
+.header {
+    position: relative;
+    padding-top: 24px;
+}
+
+.header > div:first-child > *:last-child {
+    margin-top: 12px;
+    width: fit-content;
+    margin-left: auto;
+}
+
+@media screen and (orientation: landscape) {
+    .header > div:first-child > *:last-child {
+        position: absolute;
+        top: 32px;
+        right: 8px;
+        margin-top: 0;
+    }
+}
+
+.header,
+.content {
+    max-width: 1000px;
+    margin-inline: auto;
+}
+
+.header a,
+.content a {
+    color: #6eaedc;
+}
+
+.img_container {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+}
+
+.img_container img {
+    width: 50%;
+    height: auto;
+    margin-block: 24px;
+    border-radius: 4px;
+}
+
+.header h1 {
+    text-align: left;
+    font-size: 20px;
+}
+
+.header h3 {
+    font-size: 16px;
+    color: #d9d9d9;
+    font-style: italic;
+    font-weight: 400;
+}
+
+.header h5 {
+    font-weight: 200;
+    font-size: 12px;
+    font-style: italic;
+    color: #878787;
+    margin-block: 8px;
+}
+
+.content {
+    margin-top: 36px;
+    padding-bottom: 24px;
+    font-size: 12px;
+    color: #d9d9d9;
+    line-height: 1.5;
+}
+
+@media screen and (orientation: landscape) {
+    .content {
+        font-size: 16px;
+    }
+}
+
+.content img {
+    width: 100%;
+    border-radius: 4px;
+}
+
+.content h2,
+.content h3,
+.content h4 {
+    color: var(--color-gold-pri);
+}
+
+.content > * {
+    margin-block: 12px;
+}
+
+@media screen and (orientation: landscape) {
+    .content > * {
+        margin-bottom: 20px;
+    }
+}
+
+.content ul {
+    padding-left: 16px;
+    list-style-type: '-';
+}
+
+.content ol {
+    padding-inline: 8px;
+}
+
+.content li {
+    margin-bottom: 4px;
+}
+
+.content li img {
+    float: left;
+    width: 35%;
+    margin-inline: 8px;
+    margin-top: 8px;
+}
+
+.content p:has(video) {
+    width: fit-content;
+    margin-inline: auto;
+    margin-block: 48px;
+}
+
+.color_div {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 110px));
+    gap: 12px;
+    margin-block: 32px;
+}
+
+.share {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+    color: #d9d9d9;
+    font-size: 12px;
+}
+
+@media screen and (orientation: landscape) {
+    .share {
+        flex-direction: row;
+        align-items: flex-end;
+        font-size: 16px;
+        gap: 20px;
+    }
+}
