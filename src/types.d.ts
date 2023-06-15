@@ -40,7 +40,8 @@ type Color = {
     image: string,
     name: string,
     brand: string,
-    category: string
+    category: string,
+    link: string
 }
 
 type Message = {
