@@ -32,7 +32,7 @@ export default function LookFormInfo({ tags, colors, image1, image2, dispatch }:
         // first check that tagRef isn't null
         if (tagRef.current) {
             // get input value for new tag
-            const newTag: string = tagRef.current.value
+            const newTag: string = tagRef.current.value.toLowerCase()
 
             // if input isn't empty, update look state with new tag and reset input
             if (newTag !== '') dispatch({ type: ACTIONS.ADD_TAG, payload: newTag })

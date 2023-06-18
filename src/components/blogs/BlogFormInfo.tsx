@@ -25,7 +25,7 @@ export default function BlogFormInfoCopy({ topics, type, dispatch, image }: Blog
         // first, check that topicRef isn't null
         if (topicRef.current) {
             // get input value
-            const newTopic: string = topicRef.current.value
+            const newTopic: string = topicRef.current.value.toLowerCase()
 
             // if input isn't blank, save topic to blog state and reset input
             if (newTopic !== '') dispatch({type: ACTIONS.ADD_TOPIC, payload: newTopic})
