@@ -94,34 +94,45 @@ export default function PromoFormInfo({
 
             </div>
 
-            <label htmlFor="expiration">Do you want to set an expiration date?</label>
 
-            <select
-                name="expiration"
-                id="expiration"
-                value={hasExpiration ? 'yes' : 'no'}
-                onChange={handleExpirationChange}
-            >
-                <option value="no">No</option>
-                <option value="yes">Yes</option>
-            </select>
+            <div className={styles.expiration}>
 
-            {
-                hasExpiration &&
+            <label htmlFor="expiration">
+                
+                Do you want to set an expiration date?
 
-                <>
-                    <label htmlFor="expirationDate">Expiration Date:</label>
+                <select
+                    name="expiration"
+                    id="expiration"
+                    value={hasExpiration ? 'yes' : 'no'}
+                    onChange={handleExpirationChange}
+                >
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                </select>
 
-                    <input
-                        type='datetime-local'
-                        name='expirationDate'
-                        id='expirationDate'
-                        value={convertTimestamp(expiresAt)}
-                        onChange={handleExpirationDateChange}
-                        required
-                    />
-                </>
-            }
+            </label>
+
+                {
+                    hasExpiration &&
+
+                    <label htmlFor="expirationDate">
+                        
+                        Expiration Date:
+
+                        <input
+                            type='datetime-local'
+                            name='expirationDate'
+                            id='expirationDate'
+                            value={convertTimestamp(expiresAt)}
+                            onChange={handleExpirationDateChange}
+                            required
+                        />
+
+                    </label>
+                }
+
+            </div>
 
             <label htmlFor="link">Link</label>
 

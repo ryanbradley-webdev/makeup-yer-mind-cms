@@ -82,3 +82,15 @@
         margin-right: 48px;
     }
 }
+
+.expiration {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+@media screen and (min-width: 652px) {
+    .expiration {
+        flex-direction: row;
+    }
+}
