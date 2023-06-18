@@ -10,7 +10,7 @@ import FormBtn from '../shared/form/FormBtn'
 import Modal from '../shared/Modal'
 import PromoPreview from './PromoPreview'
 import { serverTimestamp } from 'firebase/firestore'
-import slugify from 'slugify'
+import { slugify } from '../../util/functions'
 
 type EditPromoProps = {
     type: string

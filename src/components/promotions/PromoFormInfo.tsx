@@ -1,6 +1,6 @@
 import { Dispatch, useRef, useState, useContext, useEffect } from 'react'
 import ImgUploader from '../shared/form/ImgUploader'
-import slugify from 'slugify'
+import { slugify } from '../../util/functions'
 import DataContext from '../../contexts/DataContext'
 import { Timestamp } from 'firebase/firestore'
 import styles from './promotions.module.css'

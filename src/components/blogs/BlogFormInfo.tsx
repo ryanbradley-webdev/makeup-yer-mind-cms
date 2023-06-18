@@ -1,7 +1,7 @@
 import { useContext, useRef, useState } from 'react'
 import Chip from '../shared/Chip'
 import TinyBtn from '../shared/TinyBtn'
-import slugify from 'slugify'
+import { slugify } from '../../util/functions'
 import { ACTIONS } from './BlogReducer'
 import ImgUploader from '../shared/form/ImgUploader'
 import { v4 as uuid } from 'uuid'

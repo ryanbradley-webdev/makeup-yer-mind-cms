@@ -15,7 +15,6 @@
     "react-markdown": "^8.0.6",
     "react-router-dom": "^6.9.0",
     "rehype-raw": "^6.1.1",
-    "slugify": "^1.6.6",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
