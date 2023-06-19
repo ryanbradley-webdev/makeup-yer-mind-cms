@@ -218,6 +218,12 @@ export default function Content({ value, handleChange }: ContentProps) {
                         type="text"
                         onChange={(e) => updateMarkdown(e.target.value, setLinkURL)}
                     />
+                    <p className={styles.subtext}>
+                        If the URL is to an external site (e.g. a Seint product) use the full URL (e.g. &apos;https://seintofficial.com&apos;)
+                    </p>
+                    <p className={styles.subtext}>
+                        If the URL is to another page on your site, use a slash followed by the specific route (e.g. &apos;/makeup-consultation&apos;)
+                    </p>
                 </div>
 
                 <div>
@@ -322,10 +328,16 @@ export default function Content({ value, handleChange }: ContentProps) {
                         type="text"
                         onChange={(e) => updateMarkdown(e.target.value, setbtnURL)}
                     />
+                    <p className={styles.subtext}>
+                        If the URL is to an external site (e.g. a Seint product) use the full URL (e.g. &apos;https://seintofficial.com&apos;)
+                    </p>
+                    <p className={styles.subtext}>
+                        If the URL is to another page on your site, use a slash followed by the specific route (e.g. &apos;/makeup-consultation&apos;)
+                    </p>
                 </div>
 
                 <div>
-                    <label>Enter alt text</label>
+                    <label>Enter button text</label>
                     <input
                         form='no-form'
                         type="text"
@@ -339,7 +351,7 @@ export default function Content({ value, handleChange }: ContentProps) {
                         style={localStyles.markdown}
                         ref={btnRef}
                     >
-                        {`\n\n<button type='button'><a href='${btnUrl}' target='_blank'>${btnDisplay}</a></button>`}
+                        {`\n\n<a href='${btnUrl}'><button type='button'>${btnDisplay}</button></a>`}
                     </p>
                 </div>
 

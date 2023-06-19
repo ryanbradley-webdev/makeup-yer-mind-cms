@@ -54,7 +54,7 @@ button {
   z-index: 20;
 }
 
-.preview-container button {
+.preview-container > button:first-of-type {
   position: absolute;
   top: 48px;
   left: 16px;
@@ -68,7 +68,7 @@ button {
 }
 
 @media screen and (min-width: 1000px) {
-  .preview-container button {
+  .preview-container > button:first-of-type {
     left: calc(calc(100vw - 1024px) / 2);
   }
 }

@@ -98,7 +98,7 @@ export default function BlogPreview({ article, togglePreview }: BlogPreviewProps
 
                 </section>
 
-        </div>
+            </div>
             
         </div>
     )

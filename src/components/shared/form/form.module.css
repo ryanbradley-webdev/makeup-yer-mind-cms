@@ -188,3 +188,8 @@
         cursor: pointer;
     }
 }
+
+.subtext {
+    font-size: 0.75em;
+    font-weight: 300;
+}
