@@ -66,6 +66,33 @@
     color: #6eaedc;
 }
 
+.content a:has(button) {
+    text-decoration: none;
+}
+
+.content button {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 310px;
+    padding: 8px;
+    margin-inline: auto;
+    color: #EBC7AD;
+    background-color: rgba(0, 0, 0, 0.288);
+    border: 2px solid #EBC7AD;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: inherit;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.content button:is(:hover, :focus) {
+    outline: none;
+    color: black;
+    background-color: #EBC7AD;
+}
+
 .img_container {
     display: flex;
     gap: 12px;
