@@ -35,27 +35,5 @@ export const generateBtnColor = (variant: string | undefined) => {
 }
 
 export const slugify = (title: string) => {
-    const wordArr = title.split(' ')
-
-    let slugifiedArr = wordArr.map(word => {
-        let newWord = word.replaceAll(':', '')
-
-        newWord = newWord.replaceAll(';', '')
-
-        newWord = newWord.replaceAll('#', '')
-
-        newWord = newWord.replaceAll('&', '')
-
-        newWord = newWord.replaceAll('$', '')
-
-        newWord = newWord.replaceAll('*', '')
-
-        newWord = newWord.replaceAll('@', '')
-
-        newWord = newWord.replaceAll("'", '')
-
-        return newWord.toLowerCase()
-    })
-
-    return slugifiedArr.join('-')
+    return title.replaceAll(' ', '-').replace(/[^a-zA-Z0-9\-]/g, '').toLowerCase()
 }
