@@ -147,6 +147,13 @@ export default function PromoFormInfo({
                     onChange={e => dispatch({ type: 'change-link', payload: e.target.value })}
                 />
 
+                <p className={styles.subtext}>
+                    If the URL is to an external site (e.g. a Seint product) use the full URL (e.g. &apos;https://seintofficial.com&apos;)
+                </p>
+                <p className={styles.subtext}>
+                    If the URL is to another page on your site, use a slash followed by the specific route (e.g. &apos;/makeup-consultation&apos;)
+                </p>
+
             </div>
 
             <ImgUploader 

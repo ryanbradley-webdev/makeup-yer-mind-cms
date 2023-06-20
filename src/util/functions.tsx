@@ -34,10 +34,10 @@ export const generateBtnColor = (variant: string | undefined) => {
     }
 }
 
-export const slugify = (title: string, articles: Blog[] | Look[] | Promo[]) => {
+export const slugify = (title: string, articles?: Blog[] | Look[] | Promo[]) => {
     let newTitle = title.replaceAll(' ', '-').replace(/[^a-zA-Z0-9\-]/g, '').toLowerCase()
 
-    articles.forEach(article => {
+    articles && articles.forEach(article => {
         if (newTitle === article.slug) {
             const date = new Date().toLocaleDateString().replaceAll('/', '-')
             newTitle += '-' + date
