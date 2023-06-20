@@ -109,3 +109,10 @@ type Firestore = {
     toggleColorMatchRead: (id: string, status: boolean) => Promise<string>,
     toggleColorMatchComplete: (id: string, status: boolean) => Promise<string>
 }
+
+type ChuckNorrisFact = {
+    icon_url: string,
+    id: string,
+    url: string,
+    value: string
+}

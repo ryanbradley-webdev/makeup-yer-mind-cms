@@ -23,3 +23,9 @@ export const dataIsMessage = (data: DocumentData): data is Message => {
 export const dataIsColorMatch = (data: DocumentData): data is ColorMatch => {
     return data.docType === 'color-match'
 }
+
+export const dataIsFact = (data: any): data is ChuckNorrisFact => {
+    if (!data) return false
+
+    return data.icon_url && data.value
+}

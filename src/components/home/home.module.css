@@ -1,3 +1,14 @@
+.fun_fact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.fun_fact > *:first-child {
+    font-style: italic;
+}
+
 .login_container {
     position: absolute;
     top: 66px;
