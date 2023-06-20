@@ -21,7 +21,7 @@ export default function EditLook({ type }: EditLookProps) {
     const [previewVisible, setPreviewVisible] = useState<boolean>(false)
     const [successModalVisible, setSuccessModalVisible] = useState<boolean>(false)
 
-    const { looks, allColors, saveArticle } = useContext(DataContext) as Firestore
+    const { looks, saveArticle } = useContext(DataContext) as Firestore
     const { id } = useParams()
 
     const article = looks.find((look: Look) => look.id === id) || initialLook
@@ -54,7 +54,7 @@ export default function EditLook({ type }: EditLookProps) {
             newLook.createdAt = serverTimestamp()
 
             // generate URL slug from article title
-            newLook.slug = slugify(newLook.title)
+            newLook.slug = slugify(newLook.title, looks)
         }
 
         // upload new look to database

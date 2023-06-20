@@ -51,7 +51,7 @@ export default function EditPromo({ type }: EditPromoProps) {
             promoState.createdAt = serverTimestamp()
 
             // generate URL slug from article title
-            promoState.slug = slugify(promoState.title)
+            promoState.slug = slugify(promoState.title, promos)
         }
 
         // upload new blog to database

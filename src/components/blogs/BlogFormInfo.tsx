@@ -82,6 +82,7 @@ export default function BlogFormInfoCopy({ topics, type, dispatch, image }: Blog
                 <option value="products">Products</option>
                 <option value="lifestyle">Lifestyle</option>
                 <option value="tutorial">Tutorial</option>
+                <option value="state-of-mind">State of Mind</option>
             </select>
 
             <label htmlFor="topics">Topics</label>
