@@ -130,7 +130,9 @@
 }
 
 .content a:has(button) {
+    display: block;
     text-decoration: none;
+    margin-block: 48px;
 }
 
 .content button {
