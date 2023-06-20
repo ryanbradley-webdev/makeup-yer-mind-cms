@@ -15,8 +15,6 @@ export async function getAllBlogs() {
     blogsSnap.forEach(doc => {
         const docData = doc.data()
 
-        console.log(docData.title)
-
         if (dataIsBlog(docData)) {
             if (docData.draft) {
                 draftBlogs.push(docData)

@@ -59,17 +59,37 @@ export default function Login() {
 
                 <form action="" onSubmit={handleLogin}>
 
-                    <label htmlFor="email">Email:</label>
+                    <label htmlFor="email">
+                        Email:
+                    </label>
 
-                    <input type="email" name='email' id='email' ref={emailRef} required />
+                    <input
+                        type="email"
+                        name='email'
+                        id='email'
+                        ref={emailRef}
+                        required
+                        autoComplete='username'
+                    />
 
-                    <label htmlFor="password">Password:</label>
+                    <label htmlFor="password">
+                        Password:
+                    </label>
 
-                    <input type="password" name="password" id="password" ref={passwordRef} required />
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        ref={passwordRef}
+                        required
+                        autoComplete='current-password'
+                    />
                     
                     {emailError && <span>{emailError}</span>}
 
-                    <button>Sign In</button>
+                    <button>
+                        Sign In
+                    </button>
 
                 </form>
 
