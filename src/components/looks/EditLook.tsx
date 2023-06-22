@@ -20,6 +20,7 @@ export default function EditLook({ type }: EditLookProps) {
     const [deleteModalVisible, setDeleteModalVisible] = useState<boolean>(false)
     const [previewVisible, setPreviewVisible] = useState<boolean>(false)
     const [successModalVisible, setSuccessModalVisible] = useState<boolean>(false)
+    const [failureModalVisible, setFailureModalVisible] = useState<boolean>(false)
 
     const { looks, saveArticle } = useContext(DataContext) as Firestore
     const { id } = useParams()
@@ -29,16 +30,6 @@ export default function EditLook({ type }: EditLookProps) {
     const [look, dispatch] = useReducer(reducer, article)
 
     const navigate = useNavigate()
-
-    function successMessage() {
-        // open success modal
-        setSuccessModalVisible(true)
-
-        // return to looks page after 1 second
-        setTimeout(() => {
-            navigate('/looks')
-        }, 1000)
-    }
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
@@ -60,9 +51,13 @@ export default function EditLook({ type }: EditLookProps) {
         // upload new look to database
         saveArticle(newLook)
             // if success, open success modal and return to looks page
-            .then(() => successMessage())
+            .then(() => {
+                setSuccessModalVisible(true)
+            })
             // otherwise log error
-            .catch((err: any) => console.log(err))
+            .catch(() => {
+                setFailureModalVisible(true)
+            })
         // TODO add error UI to inform user of failed upload
     }
 
@@ -73,9 +68,13 @@ export default function EditLook({ type }: EditLookProps) {
         // upload draft to database
         saveArticle(draft)
             // if success, open success modal and return to looks page
-            .then(() => successMessage())
+            .then(() => {
+                setSuccessModalVisible(true)
+            })
             // otherwise log error
-            .catch((err: any) => console.log(err))
+            .catch(() => {
+                setFailureModalVisible(true)
+            })
         // TODO add error UI to inform user of failed upload
     }
 
@@ -139,6 +138,28 @@ export default function EditLook({ type }: EditLookProps) {
 
                 </div>
 
+            </Modal>
+
+            <Modal isVisible={successModalVisible}>
+
+                <h2>Look saved!</h2>
+                
+                <div className='modal-btn-div'>
+                    <FormBtn onClick={() => setSuccessModalVisible(false)}>Close</FormBtn>
+                </div>
+                
+            </Modal>
+
+            <Modal isVisible={failureModalVisible}>
+
+                <h2>Something went wrong.</h2>
+
+                <h2>Please try again or contact the webmaster.</h2>
+                
+                <div className='modal-btn-div'>
+                    <FormBtn onClick={() => setFailureModalVisible(false)}>Close</FormBtn>
+                </div>
+                
             </Modal>
 
         </main>

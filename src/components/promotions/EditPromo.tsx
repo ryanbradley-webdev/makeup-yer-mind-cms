@@ -27,18 +27,9 @@ export default function EditPromo({ type }: EditPromoProps) {
     const [previewVisible, setPreviewVisible] = useState(false)
     const [deleteModalVisible, setDeleteModalVisible] = useState(false)
     const [successModalVisible, setSuccessModalVisible] = useState(false)
+    const [failureModalVisible, setFailureModalVisible] = useState(false)
 
     const navigate = useNavigate()
-
-    function successMessage() {
-        // open success modal
-        setSuccessModalVisible(true)
-
-        // navigate to promotions page after 1 second
-        setTimeout(() => {
-            navigate('/promotions')
-        }, 1000)
-    }
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
@@ -57,9 +48,13 @@ export default function EditPromo({ type }: EditPromoProps) {
         // upload new blog to database
         saveArticle(promoState)
             // if success, open success modal and return to blogs page
-            .then(() => successMessage())
+            .then(() => {
+                setSuccessModalVisible(true)
+            })
             // otherwise log error
-            .catch((err: any) => console.log(err))
+            .catch(() => {
+                setFailureModalVisible(true)
+            })
         // TODO add error UI to inform user of failed upload
     }
 
@@ -110,6 +105,28 @@ export default function EditPromo({ type }: EditPromoProps) {
                 <div className='modal-btn-div'>
                     <FormBtn onClick={toggleDeleteModal}>Cancel</FormBtn>
                     <FormBtn variant='red' onClick={() => navigate('/promotions')}>Delete</FormBtn>
+                </div>
+                
+            </Modal>
+
+            <Modal isVisible={successModalVisible}>
+
+                <h2>Promotion saved!</h2>
+                
+                <div className='modal-btn-div'>
+                    <FormBtn onClick={() => setSuccessModalVisible(false)}>Close</FormBtn>
+                </div>
+                
+            </Modal>
+
+            <Modal isVisible={failureModalVisible}>
+
+                <h2>Something went wrong.</h2>
+
+                <h2>Please try again or contact the webmaster.</h2>
+                
+                <div className='modal-btn-div'>
+                    <FormBtn onClick={() => setFailureModalVisible(false)}>Close</FormBtn>
                 </div>
                 
             </Modal>
