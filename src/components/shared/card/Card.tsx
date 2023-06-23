@@ -33,10 +33,10 @@ export default function Card({ type, content, id, image, image2 }: CardProps) {
         const date = new Date(timestamp * 1000).toLocaleDateString()
         return (
             <h5>
+                {content.updatedAt ? 'Updated: ' : 'Posted: '}
                 <span>
-                    {content.updatedAt ? 'Updated: ' : 'Posted: '}
+                    {date}
                 </span>
-                {date}
             </h5>
         )
     }
@@ -163,6 +163,16 @@ export default function Card({ type, content, id, image, image2 }: CardProps) {
 
                                 </div>
                             }
+
+                            <h5>
+
+                                Url:&nbsp;
+
+                                <span>
+                                    {content.slug ? `https://makeupyermind.com/${content.docType}s/${content.slug}` : 'No URL available'}
+                                </span>
+
+                            </h5>
                         </>
                     }
                 </div>

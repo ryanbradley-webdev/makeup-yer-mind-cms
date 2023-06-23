@@ -91,12 +91,17 @@
     }
 }
 
+.card_info h5 span {
+    color: white;
+}
+
 .details {
     width: fit-content;
     display: flex;
     gap: 1rem;
     font-size: 0.75rem;
     color: #B9B9B9;
+    margin-bottom: 8px;
 }
 
 .details span {
