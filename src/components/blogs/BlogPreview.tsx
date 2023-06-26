@@ -15,6 +15,7 @@ export default function BlogPreview({ article, togglePreview }: BlogPreviewProps
     const {
         title,
         description,
+        author,
         createdAt,
         updatedAt,
         draft,
@@ -82,7 +83,7 @@ export default function BlogPreview({ article, togglePreview }: BlogPreviewProps
                         {content || ''}
                     </ReactMarkdown>
 
-                    <Signoff />
+                    <Signoff author={author} />
 
                     <SocialStats />
 
