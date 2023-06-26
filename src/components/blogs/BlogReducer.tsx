@@ -17,7 +17,7 @@ export const initialBlog: Blog = {
     docType: 'blog'
 }
 
-export function reducer (state: Blog, action: Action): Blog {
+export function reducer(state: Blog, action: Action): Blog {
     let newState
 
     switch (action.type) {
@@ -40,6 +40,7 @@ export function reducer (state: Blog, action: Action): Blog {
 
         case ACTIONS.CHANGE_TYPE:
             newState = { ...state, type: action.payload }
+            break
 
         case ACTIONS.ADD_TOPIC:
             newState = { ...state, topics: [...state.topics, action.payload] }
