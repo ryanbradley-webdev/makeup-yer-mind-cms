@@ -189,6 +189,18 @@
     margin-block: 48px;
 }
 
+.content p img {
+    display: block;
+    margin-top: 20px;
+    margin-inline: auto;
+}
+
+@media screen and (min-width: 481px) {
+    .content p img {
+        width: 50%;
+    }
+}
+
 .color_div {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(80px, 110px));
