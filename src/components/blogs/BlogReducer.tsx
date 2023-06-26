@@ -6,6 +6,7 @@ export const initialBlog: Blog = {
     image: '',
     content: '',
     topics: [],
+    author: 'courtney',
     comments: 0,
     likes: 0,
     views: 0,
@@ -48,6 +49,10 @@ export function reducer (state: Blog, action: Action): Blog {
             newState = { ...state, topics: state.topics.filter(topic => topic !== action.payload) }
             break
 
+        case ACTIONS.CHANGE_AUTHOR:
+            newState = { ...state, author: action.payload }
+            break
+
         case ACTIONS.REFRESH_BLOG:
             newState = action.payload
             break
@@ -68,5 +73,6 @@ export const ACTIONS = {
     CHANGE_TYPE: 'changeType',
     ADD_TOPIC: 'addTopic',
     DELETE_TOPIC: 'deleteTopic',
+    CHANGE_AUTHOR: 'changeAuthor',
     REFRESH_BLOG: 'refreshBlog'
 }

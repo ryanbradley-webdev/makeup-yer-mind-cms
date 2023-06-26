@@ -115,6 +115,7 @@ export default function EditBlog({ type }: EditBlogProps) {
                     
                     <BlogFormInfo
                         topics={blog.topics}
+                        author={blog.author}
                         type={blog.type}
                         image={blog.image}
                         dispatch={dispatch}

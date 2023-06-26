@@ -9,12 +9,13 @@ import DataContext from '../../contexts/DataContext'
 
 type BlogFormInfoProps = {
     topics: string[],
+    author: string,
     type: string,
     dispatch: (arg: DispatchArg) => void,
     image: string
 }
 
-export default function BlogFormInfoCopy({ topics, type, dispatch, image }: BlogFormInfoProps) {
+export default function BlogFormInfoCopy({ topics, author, type, dispatch, image }: BlogFormInfoProps) {
     const [imgLoading, setImageLoading] = useState<boolean>(false)
 
     const topicRef= useRef<HTMLInputElement>(null)
@@ -61,6 +62,19 @@ export default function BlogFormInfoCopy({ topics, type, dispatch, image }: Blog
 
     return (
         <>
+            <label htmlFor="author">Author</label>
+
+            <select 
+                name="author" 
+                id="author"
+                onChange={e => dispatch({ type: ACTIONS.CHANGE_AUTHOR, payload: e.target.value })}
+                value={author}
+            >
+                <option value="courtney">Courtney</option>
+                <option value="tara">Tara</option>
+                <option value="malina">Malina</option>
+            </select>
+
             <ImgUploader 
                 uploadImg={handleUpload}
                 isLoading={imgLoading}

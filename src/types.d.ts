@@ -4,6 +4,7 @@ type Blog = {
     title: string,
     slug: string,
     topics: string[],
+    author: string,
     likes: number,
     createdAt?: FieldValue,
     updatedAt?: FieldValue,
