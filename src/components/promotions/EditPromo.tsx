@@ -34,19 +34,23 @@ export default function EditPromo({ type }: EditPromoProps) {
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
 
-        if (promoState.createdAt) {
+        const newPromo = { ...promoState }
+
+        if (newPromo.createdAt) {
             // if current blog is an edit of a live blog, set the updatedAt field to a server timestamp
-            promoState.updatedAt = serverTimestamp()
+            newPromo.updatedAt = serverTimestamp()
         } else {
             // else generate a createdAt server timestamp
-            promoState.createdAt = serverTimestamp()
+            newPromo.createdAt = serverTimestamp()
 
             // generate URL slug from article title
-            promoState.slug = slugify(promoState.title, promos)
+            if (!newPromo.slug) {
+                newPromo.slug = slugify(newPromo.title, promos)
+            }
         }
 
         // upload new blog to database
-        saveArticle(promoState)
+        saveArticle(newPromo)
             // if success, open success modal and return to blogs page
             .then(() => {
                 setSuccessModalVisible(true)

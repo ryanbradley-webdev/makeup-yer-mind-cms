@@ -45,7 +45,9 @@ export default function EditLook({ type }: EditLookProps) {
             newLook.createdAt = serverTimestamp()
 
             // generate URL slug from article title
-            newLook.slug = slugify(newLook.title, looks)
+            if (!newLook.slug) {
+                newLook.slug = slugify(newLook.title, looks)
+            }
         }
 
         // upload new look to database

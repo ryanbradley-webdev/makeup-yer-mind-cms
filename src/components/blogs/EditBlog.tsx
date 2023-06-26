@@ -46,7 +46,9 @@ export default function EditBlog({ type }: EditBlogProps) {
             newBlog.createdAt = serverTimestamp()
 
             // generate URL slug from article title
-            newBlog.slug = slugify(newBlog.title, blogs)
+            if (!newBlog.slug) {
+                newBlog.slug = slugify(newBlog.title, blogs)
+            }
         }
 
         // upload new blog to database
