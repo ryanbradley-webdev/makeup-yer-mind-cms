@@ -5,6 +5,7 @@ import Share from "../shared/preview/Share"
 import SocialStats from "../shared/preview/SocialStats"
 import TagsAndTopics from "../shared/preview/TagsAndTopics"
 import Signoff from "../shared/preview/Signoff"
+import YouTube from "../shared/YouTube"
 
 type BlogPreviewProps = {
     article: Partial<Blog>,
@@ -79,6 +80,15 @@ export default function BlogPreview({ article, togglePreview }: BlogPreviewProps
 
                     <ReactMarkdown 
                         rehypePlugins={[rehypeRaw]}
+                        components={{
+                            video: ({ node, ...props }) => {
+                                if (!props.src) return null
+    
+                                return (props.src.includes('youtu.be') || props.src.includes('youtube.com')) ? (
+                                    <YouTube url={props.src} />
+                                ) : null
+                            }
+                        }}
                     >
                         {content || ''}
                     </ReactMarkdown>
