@@ -21,6 +21,7 @@ export default function EditLook({ type }: EditLookProps) {
     const [previewVisible, setPreviewVisible] = useState<boolean>(false)
     const [successModalVisible, setSuccessModalVisible] = useState<boolean>(false)
     const [failureModalVisible, setFailureModalVisible] = useState<boolean>(false)
+    const [noImgModalVisible, setNoImgModalVisible] = useState<boolean>(false)
 
     const { looks, saveArticle } = useContext(DataContext) as Firestore
     const { id } = useParams()
@@ -33,6 +34,10 @@ export default function EditLook({ type }: EditLookProps) {
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
+
+        if (!look.image1 || !look.image2) {
+            return setNoImgModalVisible(true)
+        }
 
         // create copy of look state and set draft status to false
         const newLook = { ...look, draft: false }
@@ -60,7 +65,6 @@ export default function EditLook({ type }: EditLookProps) {
             .catch(() => {
                 setFailureModalVisible(true)
             })
-        // TODO add error UI to inform user of failed upload
     }
 
     function saveDraft() {        
@@ -77,7 +81,6 @@ export default function EditLook({ type }: EditLookProps) {
             .catch(() => {
                 setFailureModalVisible(true)
             })
-        // TODO add error UI to inform user of failed upload
     }
 
     function toggleDeleteModal() {
@@ -160,6 +163,16 @@ export default function EditLook({ type }: EditLookProps) {
                 
                 <div className='modal-btn-div'>
                     <FormBtn onClick={() => setFailureModalVisible(false)}>Close</FormBtn>
+                </div>
+                
+            </Modal>
+
+            <Modal isVisible={noImgModalVisible}>
+
+                <h2>Make sure both images are included.</h2>
+                
+                <div className='modal-btn-div'>
+                    <FormBtn onClick={() => setNoImgModalVisible(false)}>Close</FormBtn>
                 </div>
                 
             </Modal>

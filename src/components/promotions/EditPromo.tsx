@@ -28,11 +28,16 @@ export default function EditPromo({ type }: EditPromoProps) {
     const [deleteModalVisible, setDeleteModalVisible] = useState(false)
     const [successModalVisible, setSuccessModalVisible] = useState(false)
     const [failureModalVisible, setFailureModalVisible] = useState(false)
+    const [noImgModalVisible, setNoImgModalVisible] = useState(false)
 
     const navigate = useNavigate()
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
+
+        if (!promoState.image) {
+            return setNoImgModalVisible(true)
+        }
 
         const newPromo = { ...promoState }
 
@@ -59,7 +64,6 @@ export default function EditPromo({ type }: EditPromoProps) {
             .catch(() => {
                 setFailureModalVisible(true)
             })
-        // TODO add error UI to inform user of failed upload
     }
 
     function toggleDeleteModal() {
@@ -131,6 +135,16 @@ export default function EditPromo({ type }: EditPromoProps) {
                 
                 <div className='modal-btn-div'>
                     <FormBtn onClick={() => setFailureModalVisible(false)}>Close</FormBtn>
+                </div>
+                
+            </Modal>
+
+            <Modal isVisible={noImgModalVisible}>
+
+                <h2>Please add an image.</h2>
+                
+                <div className='modal-btn-div'>
+                    <FormBtn onClick={() => setNoImgModalVisible(false)}>Close</FormBtn>
                 </div>
                 
             </Modal>

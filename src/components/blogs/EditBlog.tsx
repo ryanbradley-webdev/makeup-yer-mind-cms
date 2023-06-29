@@ -26,7 +26,7 @@ export default function EditBlog({ type }: EditBlogProps) {
     const [previewVisible, setPreviewVisible] = useState<boolean>(false)
     const [successModalVisible, setSuccessModalVisible] = useState<boolean>(false)
     const [failureModalVisible, setFailureModalVisible] = useState<boolean>(false)
-    // TODO add success modal on submitting draft/publishing
+    const [noImgModalVisible, setNoImgModalVisible] = useState<boolean>(false)
 
     const [blog, dispatch] = useReducer(reducer, article)
 
@@ -34,6 +34,10 @@ export default function EditBlog({ type }: EditBlogProps) {
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
+
+        if (!blog.image) {
+            return setNoImgModalVisible(true)
+        }
 
         // create copy of blog state and set draft status to false
         const newBlog = { ...blog, draft: false }
@@ -61,7 +65,6 @@ export default function EditBlog({ type }: EditBlogProps) {
             .catch(() => {
                 setFailureModalVisible(true)
             })
-        // TODO add error UI to inform user of failed upload
     }
 
     function saveDraft() {
@@ -78,7 +81,6 @@ export default function EditBlog({ type }: EditBlogProps) {
             .catch(() => {
                 setFailureModalVisible(true)
             })
-        // TODO add error UI to inform user of failed upload
     }
 
     function toggleDeleteModal() {
@@ -158,6 +160,16 @@ export default function EditBlog({ type }: EditBlogProps) {
                 
                 <div className='modal-btn-div'>
                     <FormBtn onClick={() => setFailureModalVisible(false)}>Close</FormBtn>
+                </div>
+                
+            </Modal>
+
+            <Modal isVisible={noImgModalVisible}>
+            
+                <h2>Please add an image.</h2>
+                
+                <div className='modal-btn-div'>
+                    <FormBtn onClick={() => setNoImgModalVisible(false)}>Close</FormBtn>
                 </div>
                 
             </Modal>
