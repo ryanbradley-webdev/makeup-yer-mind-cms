@@ -38,7 +38,7 @@ export default function Videos() {
                                 content={promo}
                                 key={promo.id}
                                 id={promo.id}
-                                type='promo'
+                                type='promotion'
                             />
                         ))
 

@@ -106,6 +106,7 @@ export function DataProvider({ children }: any) {
             .then(() => {
                 if (type === 'blogs') loadBlogs()
                 if (type === 'looks') loadLooks()
+                if (type === 'promotions') loadPromos()
             })
             // if failure return the error
             .catch(err => err.message)
