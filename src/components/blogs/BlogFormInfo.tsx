@@ -50,7 +50,7 @@ export default function BlogFormInfoCopy({ topics, author, type, dispatch, image
         setImageLoading(true)
 
         // upload file to firebase
-        uploadImg('blogs', slugify(file.name), file)
+        uploadImg('blogs', crypto.randomUUID(), file)
             .then((data) => {
                 //update blog state with returned image URL
                 dispatch({type: ACTIONS.CHANGE_IMAGE, payload: data as string})

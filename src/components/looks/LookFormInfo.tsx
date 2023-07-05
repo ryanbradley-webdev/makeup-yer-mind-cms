@@ -75,7 +75,7 @@ export default function LookFormInfo({ tags, colors, image1, image2, dispatch }:
             setImage1Loading(true)
 
             // upload image to database
-            uploadImg('looks', slugify(file.name), file)
+            uploadImg('looks', crypto.randomUUID(), file)
                 .then(data => {
                     // update look state with provided image URL
                     dispatch({ type: ACTIONS.CHANGE_IMAGE_1, payload: data as string })

@@ -3,6 +3,8 @@
     flex-direction: column;
     align-items: center;
     gap: 24px;
+    max-width: 70ch;
+    line-height: 1.5;
 }
 
 .fun_fact > *:first-child {

@@ -60,7 +60,7 @@ export default function PromoFormInfo({
         setImgLoading(true)
 
         // upload file to firebase
-        uploadImg('promotions', slugify(file.name), file)
+        uploadImg('promotions', crypto.randomUUID(), file)
             .then((data) => {
                 //update blog state with returned image URL
                 dispatch({type: 'change-image', payload: data as string})
