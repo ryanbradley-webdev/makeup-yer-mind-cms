@@ -13,7 +13,7 @@ type Blog = {
     content: string,
     description: string,
     draft: boolean,
-    type: 'products' | 'tutorial' | 'lifestyle',
+    type: 'products' | 'tutorial' | 'lifestyle' | 'state-of-mind',
     docType: 'blog'
 }
 
