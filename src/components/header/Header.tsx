@@ -4,7 +4,6 @@ import styles from './header.module.css'
 import Menu from './Menu'
 import { getWindowWidth } from '../../util/functions'
 import AuthContext from '../../contexts/AuthContext'
-import { User } from 'firebase/auth'
 
 export default function Header() {
     const { user } = useContext(AuthContext)
@@ -29,7 +28,7 @@ export default function Header() {
                     />
 
                     <p style={{ fontFamily: 'Marck Script', fontSize: '1.5rem', color: 'var(--color-gold-primary)' }}>
-                        Welcome, <br />{user ? user.displayName.slice(0, user.displayName.indexOf(' ')) : 'Guest'}!
+                        Welcome, <br />{(user && user.displayName) ? user.displayName.slice(0, user.displayName.indexOf(' ')) : 'Guest'}!
                     </p>
 
                 </div>

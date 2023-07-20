@@ -1,0 +1,39 @@
+rules_version = '2';
+
+service cloud.firestore {
+  function signedIn(id) {
+  	return id in ['Q2YTDexLfGWQDi3Nm3738RrhR1C3', 'JK6ZEzRhuzbE0R8CG4Wt0nc295o1', 'l9uGNamTrXhwVRWZ0BV81sDIgUB2'];
+  }
+  match /databases/{database}/documents {
+  	match /blogs/{blogId} {
+    	allow read: if true;
+    	allow update: if signedIn(request.auth.uid) || (request.resource.data.diff(resource.data).changedKeys().hasAny(['comments', 'views', 'likes']));
+      allow create, delete: if signedIn(request.auth.uid);
+    }
+    match /looks/{lookId} {
+    	allow read: if true;
+    	allow update: if signedIn(request.auth.uid) || (request.resource.data.diff(resource.data).changedKeys().hasAny(['comments', 'views', 'likes']));
+      allow create, delete: if signedIn(request.auth.uid);
+    }
+    match /promotions/{promotionId} {
+    	allow read: if true;
+    	allow write: if signedIn(request.auth.uid);
+    }
+    match /color-matches/{colorMatchId} {
+    	allow read, delete, update: if signedIn(request.auth.uid);
+      allow create: if true;
+    }
+    match /comments/{commentId} {
+      allow read, create: if true;
+    	allow delete, update: if signedIn(request.auth.uid);
+    }
+    match /color-samples/{colorSampleId} {
+    	allow read: if true;
+      allow write: if signedIn(request.auth.uid);
+    }
+    match /messages/{messageId} {
+    	allow read, delete, update: if signedIn(request.auth.uid);
+      allow create: if true;
+    }
+  }
+}
